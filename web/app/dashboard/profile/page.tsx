@@ -69,17 +69,17 @@ export default function ProfilePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Nama Lengkap</label>
-                  <input type="text" defaultValue="BUDI SANTOSO" className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" />
+                  <input type="text" defaultValue="BUDI SANTOSO" className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" />
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Email Notifikasi</label>
-                  <input type="email" defaultValue="BUDI@EXAMPLE.COM" className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" />
+                  <input type="email" defaultValue="BUDI@EXAMPLE.COM" className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" />
                 </div>
               </div>
 
               <div className="space-y-3">
                 <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Bio Singkat</label>
-                <textarea rows={3} defaultValue="PENGGIAT PATUNGAN SOSIAL BERBASIS TEKNOLOGI BLOCKCHAIN." className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest resize-none outline-none" />
+                <textarea rows={3} defaultValue="PENGGIAT PATUNGAN SOSIAL BERBASIS TEKNOLOGI BLOCKCHAIN." className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest resize-none outline-none" />
               </div>
 
               <div className="mt-12 flex flex-col sm:flex-row gap-4">

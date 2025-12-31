@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function ValidatorPage() {
   return (
@@ -71,7 +72,9 @@ export default function ValidatorPage() {
                   <i className="fas fa-check-circle text-sm" />
                   Setujui Pencairan
                 </button>
-                <button className="flex-1 py-5 bg-white border border-red-200 text-red-500 rounded-full font-black text-[10px] uppercase tracking-[0.2em] hover:bg-red-50 transition active:scale-95">Tolak / Laporkan</button>
+                <Link href="/dashboard/validator/laporkan" className="flex-1 py-5 bg-white border border-red-200 text-red-500 rounded-full font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center hover:bg-red-50 transition active:scale-95">
+                  Tolak / Laporkan
+                </Link>
               </div>
             </div>
           </div>

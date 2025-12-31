@@ -94,13 +94,13 @@ export default function DetailPatunganPage() {
                 <div>
                   <p className="text-[13px] font-black uppercase tracking-widest text-deep-gray">Dana Terkumpul</p>
                   <p className="text-xl font-black mt-2">
-                    4.040.000 IDRX <span className="text-sm text-dark-green/60">/ 5.050.000 IDRX</span>
+                    4.040.000 IDRX <span className="text-sm text-dark-green/60">/ 6.060.000 IDRX</span>
                   </p>
                 </div>
-                <span className="text-2xl font-black text-accent-green italic">80%</span>
+                <span className="text-2xl font-black text-accent-green italic">67%</span>
               </div>
               <div className="w-full bg-white h-4 rounded-full border border-dark-green/5 p-1 overflow-hidden">
-                <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "80%" }}></div>
+                <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "67%" }}></div>
               </div>
 
               <button onClick={() => setShowDetailKiri(!showDetailKiri)} className="mt-4 font-black text-accent-green text-sm flex items-center gap-2 hover:opacity-70 transition-all">
@@ -113,11 +113,11 @@ export default function DetailPatunganPage() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-deep-gray">Target Dana</span>
-                      <span className="font-bold">5.000.000 IDRX</span>
+                      <span className="font-bold">6.000.000 IDRX</span>
                     </div>
                     <div className="flex justify-between text-accent-green">
                       <span>Platform Fee</span>
-                      <span className="font-bold">+ 50.000 IDRX</span>
+                      <span className="font-bold">+ 60.000 IDRX</span>
                     </div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default function DetailPatunganPage() {
                 <div className="border-t border-dark-green/10 mt-4 pt-3 text-xs space-y-3 animate-fadeIn">
                   <div className="flex justify-between text-deep-gray">
                     <span>Total Dana Grup</span>
-                    <span>5.050.000 IDRX</span>
+                    <span>6.060.000 IDRX</span>
                   </div>
                   <div className="flex justify-between text-deep-gray">
                     <span>Jumlah Peserta</span>
@@ -210,7 +210,7 @@ export default function DetailPatunganPage() {
                     <span className="text-accent-green">505.000 IDRX</span>
                     {showPopupTotal && (
                       <div ref={popupRef} className="absolute right-0 top-full mt-3 w-56 bg-white border border-dark-green/10 rounded-xl p-4 text-[10px] shadow-2xl z-20">
-                        <p className="font-black mb-2 uppercase text-dark-green/40">Logika Perhitungan:</p>
+                        <p className="font-black mb-1 uppercase text-dark-green/60">Logika Perhitungan:</p>
                         <p className="text-deep-gray font-medium leading-relaxed">Total Dana Patungan ÷ Jumlah Seluruh Peserta Grup</p>
                       </div>
                     )}

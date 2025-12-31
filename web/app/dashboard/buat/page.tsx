@@ -25,27 +25,27 @@ export default function BuatPatunganPage() {
           {/* Baris 1: Nama & Kategori */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-dark-green/40 uppercase tracking-[0.2em] ml-1">Nama Kegiatan</label>
-              <input type="text" placeholder="MISAL: SEWA LAPANGAN" className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 placeholder:text-dark-green/20 outline-none" />
+              <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Nama Kegiatan</label>
+              <input type="text" placeholder="MISAL: SEWA LAPANGAN" className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 placeholder:text-dark-green/20 outline-none" />
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-dark-green/40 uppercase tracking-[0.2em] ml-1">Kategori</label>
-              <input type="text" placeholder="MISAL: HOBI" className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 placeholder:text-dark-green/20 outline-none" />
+              <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Kategori</label>
+              <input type="text" placeholder="MISAL: HOBI" className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 placeholder:text-dark-green/20 outline-none" />
             </div>
           </div>
 
           {/* Baris 2: Target Dana & Deadline */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-dark-green/40 uppercase tracking-[0.2em] ml-1">Target Dana (IDRX)</label>
+              <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Target Dana (IDRX)</label>
               <div className="relative">
                 <span className="absolute left-4 top-4 text-[11px] font-black text-dark-green/30">RP</span>
-                <input type="number" placeholder="0" className="w-full bg-milk border-none rounded-2xl p-4 pl-12 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 outline-none" />
+                <input type="number" placeholder="0" className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 pl-12 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 outline-none" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-dark-green/40 uppercase tracking-[0.2em] ml-1">Batas Waktu (Deadline)</label>
-              <input type="date" className="w-full bg-milk border-none rounded-2xl p-4 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 text-dark-green/60 outline-none" />
+              <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Batas Waktu (Deadline)</label>
+              <input type="date" className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 text-dark-green/30 outline-none" />
             </div>
           </div>
         </div>

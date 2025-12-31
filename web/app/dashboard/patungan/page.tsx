@@ -64,13 +64,13 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 4.200.000 <span className="text-sm font-bold text-dark-green/60">/ 5JT</span>
+                  4.040.000 IDRX <span className="text-sm font-bold text-dark-green/60">/ 6.060.000 IDRX</span>
                 </p>
               </div>
-              <span className="text-2xl font-black text-accent-green italic">84%</span>
+              <span className="text-2xl font-black text-accent-green italic">67%</span>
             </div>
             <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
-              <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "84%" }}></div>
+              <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "67%" }}></div>
             </div>
           </div>
 
@@ -105,7 +105,7 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 150.000 <span className="text-sm font-bold text-dark-green/60">/ 300K</span>
+                  151.500 IDRX <span className="text-sm font-bold text-dark-green/60">/ 303.000 IDRX</span>
                 </p>
               </div>
               <span className="text-2xl font-black text-accent-green italic">50%</span>
@@ -146,7 +146,7 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 1.500.000 <span className="text-sm font-bold text-dark-green/60">/ 1.5JT</span>
+                  1.515.000 IDRX <span className="text-sm font-bold text-dark-green/60">/ 1.515.000 IDRX </span>
                 </p>
               </div>
               <span className="text-2xl font-black text-accent-green italic">100%</span>

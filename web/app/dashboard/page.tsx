@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function DashboardPage() {
   return (
@@ -19,11 +20,11 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
         <div className="lg:col-span-5 bg-dark-green rounded-[2.5rem] p-8 text-milk shadow-2xl relative overflow-hidden group border border-white/10">
           <div className="relative z-10">
-            <div className="flex items-center gap-2 opacity-60 mb-6">
+            <div className="flex items-center gap-2 opacity-60 mb-1">
               <i className="fas fa-wallet text-xs"></i>
               <span className="text-[10px] font-black uppercase tracking-[0.2em]">Total Saldo IDRX</span>
             </div>
-            <h3 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter italic">Rp 1.250.000</h3>
+            <h3 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter italic">1.250.000 IDRX</h3>
             <div className="flex gap-2">
               <span className="bg-accent-green text-[9px] font-black px-2 py-1 rounded-md">NETWORK: BASE</span>
             </div>
@@ -33,18 +34,20 @@ export default function DashboardPage() {
 
         <div className="lg:col-span-7 bg-accent-green/10 border border-accent-green/20 p-8 rounded-[2.5rem] shadow-sm relative group overflow-hidden">
           <div className="flex items-start justify-between relative z-10">
-            <div className="flex gap-4 text-dark-green">
+            <div className="flex gap-4 text-dark-green mt-3">
               <div className="w-14 h-14 bg-accent-green text-milk rounded-2xl flex items-center justify-center text-xl shadow-lg shadow-accent-green/20">
                 <i className="fas fa-shield-halved"></i>
               </div>
               <div>
                 <p className="text-xs font-black text-accent-green uppercase tracking-widest mb-1">Validator Task</p>
                 <p className="text-xl font-black uppercase italic tracking-tight leading-none mb-3">
-                  1 Pencairan butuh <br /> persetujuan Anda
+                  1 Pencairan butuh persetujuan Anda
                 </p>
-                <button className="inline-flex items-center gap-2 bg-dark-green text-milk text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest hover:bg-black transition-all">
+                <Link
+                  href="dashboard/validator"
+                  className="inline-flex items-center gap-2 bg-dark-green text-milk text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest hover:bg-black transition-all">
                   Periksa Sekarang <i className="fas fa-arrow-right"></i>
-                </button>
+                </Link>
               </div>
             </div>
             <span className="bg-accent-green text-milk text-[9px] font-black px-2 py-1 rounded-md animate-bounce">PENTING</span>
@@ -56,7 +59,11 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black text-dark-green uppercase italic tracking-tighter">Patungan Berjalan</h2>
-            <button className="text-[12px] font-black text-accent-green uppercase tracking-[0.15em] hover:opacity-70 transition">Lihat Semua</button>
+            <Link
+              href="/dashboard/patungan"
+              className="text-[12px] font-black text-accent-green uppercase tracking-[0.15em] hover:opacity-70 transition">
+              Lihat Semua
+            </Link>
           </div>
 
           {/* Card Patungan */}
@@ -82,18 +89,22 @@ export default function DashboardPage() {
                 <div>
                   <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                   <p className="text-xl font-black text-dark-green">
-                    Rp 4.200.000 <span className="text-sm font-bold text-deep-gray/60">/ 5JT</span>
+                    4.040.000 IDRX <span className="text-sm font-bold text-deep-gray/60">/ 6.060.000 IDRX</span>
                   </p>
                 </div>
-                <span className="text-2xl font-black text-accent-green italic">84%</span>
+                <span className="text-2xl font-black text-accent-green italic">67%</span>
               </div>
               <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
-                <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "84%" }}></div>
+                <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "67%" }}></div>
               </div>
             </div>
 
             <div className="mt-8 pt-6 border-t border-dark-green/5 flex items-end justify-end">
-              <button className="bg-dark-green hover:bg-black text-milk px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg">Setor Dana</button>
+              <Link
+                href={`/dashboard/patungan/sewa-villa-bali`}
+                className="bg-dark-green hover:bg-black text-milk px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg">
+                Setor Dana
+              </Link>
             </div>
           </div>
         </div>
@@ -125,7 +136,11 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <button className="w-full mt-10 py-4 rounded-2xl border-2 border-dashed border-dark-green/10 text-[9px] font-black text-dark-green/40 hover:border-accent-green hover:text-accent-green transition-all uppercase tracking-[0.2em]">Riwayat Transaksi</button>
+            <Link
+              href="/dashboard/riwayat"
+              className="w-full mt-10 py-4 rounded-2xl border-2 border-dashed border-dark-green/10 text-[9px] font-black text-dark-green/40 hover:border-accent-green hover:text-accent-green transition-all uppercase tracking-[0.2em] block text-center">
+              Riwayat Transaksi
+            </Link>
           </div>
         </div>
       </div>
