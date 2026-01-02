@@ -1,14 +1,38 @@
-"use client";
+'use client';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAccount, useDisconnect } from "wagmi"; // Tambahkan ini
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  
+  // 1. Integrasi Logika Logout Web3
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Fungsi untuk Logout
+  const handleLogout = () => {
+    disconnect(); // Putus koneksi wallet
+    router.push("/"); // Kembali ke Landing Page
+  };
 
   // Helper untuk mengecek link aktif
   const isActive = (path: string) => pathname === path;
+
+  // Menyingkat alamat wallet untuk Header
+  const truncatedAddress = address 
+    ? `${address.slice(0, 5)}...${address.slice(-4)}` 
+    : "Not Connected";
+
+  if (!mounted) return null;
 
   return (
     <div className="bg-milk min-h-screen text-dark-green">
@@ -30,9 +54,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="flex items-center gap-4">
               <div className="hidden md:flex items-center bg-white border border-dark-green/10 px-4 py-2 rounded-full shadow-sm">
                 <div className="w-2 h-2 bg-accent-green rounded-full mr-3 animate-pulse"></div>
-                <span className="text-[10px] font-black font-mono text-dark-green/60">0x71C...3E4F</span>
+                {/* 2. Update Alamat Wallet Dinamis di Header */}
+                <span className="text-[10px] font-black font-mono text-dark-green/60">
+                  {truncatedAddress}
+                </span>
               </div>
-              <img className="w-10 h-10 rounded-2xl border-2 border-white shadow-md" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="user" />
+              {/* 3. Update Avatar Dinamis berdasarkan Alamat Wallet */}
+              <img 
+                className="w-10 h-10 rounded-2xl border-2 border-white shadow-md" 
+                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${address}`} 
+                alt="user" 
+              />
             </div>
           </div>
         </div>
@@ -64,11 +96,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </li>
             ))}
           </ul>
+          
+          {/* 4. TOMBOL KELUAR YANG SUDAH BERFUNGSI */}
           <div className="pt-4 border-t border-dark-green/5">
-            <Link href="/login" className="flex items-center p-3 text-red-400 hover:bg-red-50 rounded-2xl transition font-bold text-[11px] uppercase tracking-widest">
+            <button 
+              onClick={handleLogout}
+              className="flex items-center w-full p-3 text-red-400 hover:bg-red-50 rounded-2xl transition font-bold text-[11px] uppercase tracking-widest"
+            >
               <i className="fas fa-right-from-bracket w-5 text-center"></i>
               <span className="ms-3">Keluar</span>
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

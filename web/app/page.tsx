@@ -1,3 +1,5 @@
+import CustomConnectButton from "@/src/components/CustomConnectButton";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-milk selection:bg-accent-green selection:text-milk">
@@ -25,13 +27,10 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex items-center justify-end gap-4">
-            <a href="/login" className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green">
+            {/* <a href="/login" className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green">
               Masuk
-            </a>
-            <button className="bg-dark-green hover:bg-black text-milk px-5 py-2 rounded-full font-black text-[10px] uppercase tracking-widest transition shadow-lg flex items-center gap-2 active:scale-95">
-              <i className="fa-solid fa-wallet"></i>
-              Connect Wallet
-            </button>
+            </a> */}
+            <CustomConnectButton />
           </div>
         </div>
       </nav>
