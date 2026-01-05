@@ -1,3 +1,8 @@
+'use client'
+
+import { useEffect } from 'react';
+import { supabase } from '@/src/lib/supabase/client';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-milk selection:bg-accent-green selection:text-milk">

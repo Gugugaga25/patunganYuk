@@ -1,7 +1,31 @@
+'use client'
+
 import React from "react";
+import { supabaseBrowser } from '@/src/lib/supabase/browser';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from "next/link";
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabaseBrowser.auth.getSession()
+      if (!session) {
+        router.push('/login') // redirect kalau belum login
+      } else {
+        setLoading(false) // session ada, tampilkan dashboard
+      }
+    }
+
+    checkSession()
+  }, [])
+
+  if (loading) return <div>Loading...</div>
+
   return (
     <>
       {/* Header User */}
