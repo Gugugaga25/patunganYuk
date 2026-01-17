@@ -133,8 +133,8 @@ export default function LoginPage() {
         <div className="form-container sign-in-container">
           <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
             <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk font-black text-xl shadow-lg rotate-3">P</div>
-            <h1 className="font-black text-3xl uppercase italic tracking-tighter text-dark-green">Masuk</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-2">Gunakan Akun Anda</p>
+            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Masuk</h1>
+            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Gunakan Akun Anda</p>
             <div className="w-full space-y-3">
               <input type="text" placeholder="USERNAME" className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[11px] font-black uppercase tracking-widest outline-none" />
 
@@ -146,7 +146,7 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
-            <button type="submit" className="w-full bg-dark-green text-milk font-black py-4 px-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-widest transition-all">
+            <button type="submit" className="w-full bg-accent-green text-milk font-black py-4 px-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-widest transition-all">
               Masuk Sekarang
             </button>
           </form>
@@ -155,8 +155,9 @@ export default function LoginPage() {
         {/* --- FORM REGISTER (SIGN UP) --- */}
         <div className="form-container sign-up-container">
           <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
-            <h1 className="font-black text-3xl uppercase italic tracking-tighter text-dark-green">Buat Akun</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-2">Mulai Perjalanan Web3 Anda</p>
+            <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk font-black text-xl shadow-lg rotate-3">P</div>
+            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Buat Akun</h1>
+            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Mulai Perjalanan Web3 Anda</p>
 
             <div className="w-full space-y-2">
               <input type="text" placeholder="NAMA LENGKAP" className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none" />
@@ -188,7 +189,7 @@ export default function LoginPage() {
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase italic tracking-tighter leading-none">Sudah Punya Akun?</h1>
+              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Sudah Punya Akun?</h1>
               <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Masuk kembali untuk memantau dana dan mengelola profil Anda.</p>
               <button onClick={() => setIsRightPanelActive(false)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
                 Masuk
@@ -196,7 +197,7 @@ export default function LoginPage() {
             </div>
 
             <div className="overlay-panel overlay-right px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase italic tracking-tighter leading-none">Halo, Teman!</h1>
+              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Halo, Teman!</h1>
               <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Belum punya akun? Daftar sekarang dan mulai patungan transparan di Web3.</p>
               <button onClick={() => setIsRightPanelActive(true)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
                 Daftar

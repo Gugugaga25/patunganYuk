@@ -6,7 +6,7 @@ export default function Home() {
           <div className="flex-1 flex items-center">
             <div className="flex items-center gap-2 cursor-pointer">
               <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center text-milk font-black shadow-md">P</div>
-              <span className="font-extrabold text-lg tracking-tight uppercase italic text-dark-green">
+              <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
                 Patungan <span className="text-accent-green">Web3</span>
               </span>
             </div>
@@ -45,7 +45,7 @@ export default function Home() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-dark-green/60">Support Base Network & IDRX Stablecoin</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-dark-green mb-6 uppercase italic">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-dark-green mb-6 uppercase">
               Patungan Tanpa <span className="text-accent-green">Was-Was</span>,
               <br />
               Dijamin <span className="text-outline">Anti-Tilep</span>.
@@ -62,13 +62,13 @@ export default function Home() {
             </div>
 
             <div className="mt-16 pt-8 border-dark-green/5 flex flex-row justify-center items-center gap-8">
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
+              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase text-sm tracking-tighter cursor-pointer">
                 <span className="group-hover:text-accent-green transition-colors">Base Network</span>
               </div>
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
+              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase text-sm tracking-tighter cursor-pointer">
                 <span className="group-hover:text-accent-green transition-colors">IDRX Stable</span>
               </div>
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
+              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase text-sm tracking-tighter cursor-pointer">
                 <span className="group-hover:text-accent-green transition-colors">Coinbase Smart Wallet</span>
               </div>
             </div>
@@ -85,7 +85,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase italic tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tighter leading-none">
                 Uang patungan sering <span className="text-red-500">dibawa lari</span> admin?
                 <br />
                 <span className="text-accent-green">Stop sekarang.</span>
@@ -115,7 +115,7 @@ export default function Home() {
                     <i className="fa-solid fa-shield-halved"></i>
                   </div>
                   <div>
-                    <h3 className="font-black text-xl uppercase italic tracking-tight text-dark-green">Solusi Smart Contract</h3>
+                    <h3 className="font-black text-xl uppercase tracking-tight text-dark-green">Solusi Smart Contract</h3>
                     <p className="text-[10px] font-bold text-accent-green uppercase tracking-widest">Teknologi Pengaman Dana Otomatis</p>
                   </div>
                 </div>
@@ -142,32 +142,32 @@ export default function Home() {
       <section id="cara-kerja" className="py-24 bg-milk">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-dark-green">Cara Kerja Simple</h2>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-dark-green">Cara Kerja Simple</h2>
             <p className="text-deep-gray text-base font-medium">Tidak perlu paham teknis crypto. Kami buat semuanya semudah transfer bank biasa.</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">1</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Buat Patungan</h3>
+              <h3 className="font-black text-base uppercase mb-3 text-dark-green">Buat Patungan</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Isi target dana, deadline, dan rekening tujuan pencairan (Off-ramp).</p>
             </div>
 
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">2</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Deposit (Gasless)</h3>
+              <h3 className="font-black text-base uppercase mb-3 text-dark-green">Deposit (Gasless)</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Peserta kirim IDRX secara instan tanpa biaya gas (sponsored by Paymaster).</p>
             </div>
 
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">3</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Validasi Acak</h3>
+              <h3 className="font-black text-base uppercase mb-3 text-dark-green">Validasi Acak</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Sistem memilih peserta acak (Validator) untuk menyetujui setiap pencairan.</p>
             </div>
 
             <div className="bg-accent-green p-6 rounded-3xl shadow-xl transition hover:-translate-y-2 text-milk">
               <div className="w-12 h-12 bg-milk text-accent-green rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">4</div>
-              <h3 className="font-black text-base uppercase italic mb-3">Cair ke Rupiah</h3>
+              <h3 className="font-black text-base uppercase mb-3">Cair ke Rupiah</h3>
               <p className="text-[12px] text-milk/80 font-medium leading-relaxed">Setelah disetujui, dana IDRX otomatis ditukar ke Rupiah & masuk rekening tujuan.</p>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default function Home() {
       <section id="fitur" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black uppercase italic tracking-tighter text-dark-green">Kenapa Pilih Kami?</h2>
+            <h2 className="text-4xl font-black uppercase tracking-tighter text-dark-green">Kenapa Pilih Kami?</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -185,7 +185,7 @@ export default function Home() {
               <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-dark-green/10">
                 <i className="fa-solid fa-gas-pump"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">100% Gasless</h3>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">100% Gasless</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Teknologi Paymaster kami menanggung biaya jaringan. Anda hanya perlu IDRX, tanpa pusing beli ETH.</p>
             </div>
 
@@ -193,7 +193,7 @@ export default function Home() {
               <div className="w-12 h-12 bg-accent-green rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-accent-green/10">
                 <i className="fa-solid fa-money-bill-wave"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">Stablecoin IDRX</h3>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">Stablecoin IDRX</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Nilai dana Anda stabil 1:1 dengan Rupiah. Tidak perlu takut harga crypto naik turun saat patungan.</p>
             </div>
 
@@ -201,7 +201,7 @@ export default function Home() {
               <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-purple-600/10">
                 <i className="fa-solid fa-users-viewfinder"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">Validator Tiering</h3>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">Validator Tiering</h3>
               <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Keamanan berlapis. Semakin banyak peserta, semakin banyak validator yang dibutuhkan untuk pencairan.</p>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function Home() {
 
       <section id="faq" className="py-24 bg-milk">
         <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-center mb-16 uppercase italic tracking-tighter text-dark-green">Pertanyaan Umum</h2>
+          <h2 className="text-4xl font-black text-center mb-16 uppercase tracking-tighter text-dark-green">Pertanyaan Umum</h2>
 
           <div className="space-y-4">
             <details className="group bg-white p-6 rounded-2xl border border-dark-green/10 cursor-pointer transition-all duration-300 hover:border-dark-green/30 hover:shadow-sm">
@@ -245,13 +245,13 @@ export default function Home() {
                 </svg>
               </summary>
               <p className="text-sm text-deep-gray mt-4 leading-relaxed font-medium border-t border-dark-green/5 pt-4">
-                Validator dipilih secara acak oleh <span className="text-dark-green font-bold italic">Smart Contract</span> dari daftar peserta untuk menjamin transparansi pencairan.
+                Validator dipilih secara acak oleh <span className="text-dark-green font-bold">Smart Contract</span> dari daftar peserta untuk menjamin transparansi pencairan.
               </p>
             </details>
           </div>
 
           <div className="flex items-center justify-center gap-2 mt-12 text-deep-gray hover:text-green-600 cursor-pointer group transition-all duration-300">
-            <p className="text-base font-bold uppercase tracking-tighter italic">Lihat Semua Pertanyaan</p>
+            <p className="text-base font-bold uppercase tracking-tighter">Lihat Semua Pertanyaan</p>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="size-5 transform group-hover:translate-x-1 transition-transform duration-300">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
             </svg>
@@ -261,7 +261,7 @@ export default function Home() {
 
       <section className="py-24 bg-dark-green text-milk text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <h2 className="text-4xl md:text-6xl font-black mb-8 uppercase italic tracking-tighter leading-none">
+          <h2 className="text-4xl md:text-6xl font-black mb-8 uppercase tracking-tighter leading-none">
             Mulai Patungan
             <br />
             Tanpa Rasa Curiga.
@@ -277,7 +277,7 @@ export default function Home() {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center font-black text-milk shadow-sm">P</div>
-              <span className="font-black text-xl tracking-tight uppercase italic">
+              <span className="font-black text-xl tracking-tight uppercase">
                 Patungan <span className="text-accent-green">Web3</span>
               </span>
             </div>

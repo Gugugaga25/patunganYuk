@@ -24,7 +24,7 @@ export default function DashboardPage() {
               <i className="fas fa-wallet text-xs"></i>
               <span className="text-[10px] font-black uppercase tracking-[0.2em]">Total Saldo IDRX</span>
             </div>
-            <h3 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter italic">1.250.000 IDRX</h3>
+            <h3 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter">1.250.000 IDRX</h3>
             <div className="flex gap-2">
               <span className="bg-accent-green text-[9px] font-black px-2 py-1 rounded-md">NETWORK: BASE</span>
             </div>
@@ -40,7 +40,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-xs font-black text-accent-green uppercase tracking-widest mb-1">Validator Task</p>
-                <p className="text-xl font-black uppercase italic tracking-tight leading-none mb-3">
+                <p className="text-xl font-black uppercase tracking-tight leading-none mb-3">
                   1 Pencairan butuh persetujuan Anda
                 </p>
                 <Link
@@ -58,7 +58,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-8">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black text-dark-green uppercase italic tracking-tighter">Patungan Berjalan</h2>
+            <h2 className="text-2xl font-black text-dark-green uppercase tracking-tighter">Patungan Berjalan</h2>
             <Link
               href="/dashboard/patungan"
               className="text-[12px] font-black text-accent-green uppercase tracking-[0.15em] hover:opacity-70 transition">
@@ -75,7 +75,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Liburan</span>
-                  <h3 className="text-xl font-black mt-2 uppercase italic tracking-tight">Sewa Villa Bali 3D2N</h3>
+                  <h3 className="text-xl font-black mt-2 uppercase tracking-tight">Sewa Villa Bali 3D2N</h3>
                 </div>
               </div>
               <div className="bg-red-50 px-6 py-3 rounded-2xl border border-red-100 self-start md:self-center text-center">
@@ -92,7 +92,7 @@ export default function DashboardPage() {
                     4.040.000 IDRX <span className="text-sm font-bold text-deep-gray/60">/ 6.060.000 IDRX</span>
                   </p>
                 </div>
-                <span className="text-2xl font-black text-accent-green italic">67%</span>
+                <span className="text-2xl font-black text-accent-green">67%</span>
               </div>
               <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
                 <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "67%" }}></div>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
 
         {/* Aktivitas Samping */}
         <div className="space-y-8 text-dark-green">
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter">Aktivitas</h2>
+          <h2 className="text-2xl font-black uppercase tracking-tighter">Aktivitas</h2>
           <div className="bg-white/50 backdrop-blur-xl border border-dark-green/5 rounded-[2.5rem] p-8 shadow-sm">
             <div className="space-y-8">
               <div className="flex gap-4 group">

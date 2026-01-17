@@ -24,7 +24,7 @@ export default function RiwayatTerintegrasiPage() {
             </div>
             <div className="relative z-10">
               <p className="text-[8px] font-black text-milk/40 uppercase tracking-[0.2em]">Total Kontribusi</p>
-              <p className="text-xl font-black text-milk italic tracking-tighter leading-tight">4.250.000 IDRX</p>
+              <p className="text-xl font-black text-milk tracking-tighter leading-tight">4.250.000 IDRX</p>
             </div>
           </div>
 
@@ -35,7 +35,7 @@ export default function RiwayatTerintegrasiPage() {
             </div>
             <div className="relative z-10">
               <p className="text-[8px] font-black text-dark-green/40 uppercase tracking-[0.2em]">Dana di Escrow</p>
-              <p className="text-xl font-black text-dark-green italic tracking-tighter leading-tight">12.450.000 IDRX</p>
+              <p className="text-xl font-black text-dark-green tracking-tighter leading-tight">12.450.000 IDRX</p>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function RiwayatTerintegrasiPage() {
           /* TAMPILAN RIWAYAT (Daftar Transaksi) */
           <div className="bg-white rounded-[2.5rem] p-2 border border-dark-green/5 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-dark-green/5 flex items-center justify-between">
-              <h3 className="text-xl font-black uppercase italic tracking-tighter leading-none">Transaksi Terakhir</h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter leading-none">Transaksi Terakhir</h3>
               <div className="flex gap-2">
                 <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-milk text-dark-green/70 hover:text-dark-green transition-all border border-dark-green/15">
                   <i className="fas fa-filter text-[10px]"></i>
@@ -72,14 +72,14 @@ export default function RiwayatTerintegrasiPage() {
                     <i className="fas fa-arrow-up-right-from-square"></i>
                   </div>
                   <div>
-                    <h4 className="text-[12px] font-black uppercase tracking-tight leading-tight">Deposit Patungan</h4>
+                    <h4 className="text-sm font-black uppercase tracking-tight leading-tight">Deposit Patungan</h4>
                     <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mt-1">
                       UNTUK: <span className="text-dark-green">SEWA VILLA BALI 3D2N</span>
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-1">
-                  <p className="text-lg font-black tracking-tighter italic">- 500.000 IDRX</p>
+                  <p className="text-base font-black tracking-tighter">- 500.000 IDRX</p>
                   <span className="text-[9px] font-black text-dark-green/50 uppercase tracking-widest">27 DES 2025</span>
                 </div>
                 <Link href="#" className="text-[9px] font-black text-accent-green bg-accent-green/10 px-4 py-2 rounded-full hover:bg-accent-green hover:text-milk transition-all uppercase tracking-widest flex items-center gap-2">
@@ -93,14 +93,14 @@ export default function RiwayatTerintegrasiPage() {
                     <i className="fas fa-rotate-left"></i>
                   </div>
                   <div>
-                    <h4 className="text-[12px] font-black uppercase tracking-tight leading-tight">Refund Otomatis</h4>
+                    <h4 className="text-sm font-black uppercase tracking-tight leading-tight">Refund Otomatis</h4>
                     <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mt-1">
                       DARI: <span className="text-dark-green">BELI TIKET KONSER (BATAL)</span>
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-1">
-                  <p className="text-lg font-black text-accent-green tracking-tighter italic">+ 250.000 IDRX</p>
+                  <p className="text-base font-black text-accent-green tracking-tighter">+ 250.000 IDRX</p>
                   <span className="text-[9px] font-black text-dark-green/50 uppercase tracking-widest">20 DES 2025</span>
                 </div>
                 <Link href="#" className="text-[9px] font-black text-accent-green bg-accent-green/10 px-4 py-2 rounded-full hover:bg-accent-green hover:text-milk transition-all uppercase tracking-widest flex items-center gap-2">
@@ -120,19 +120,19 @@ export default function RiwayatTerintegrasiPage() {
                     <i className="fas fa-umbrella-beach"></i>
                   </div>
                   <div>
-                    <h3 className="text-xl font-black uppercase italic tracking-tighter leading-none">Sewa Villa Bali 3D2N</h3>
+                    <h3 className="text-xl font-black uppercase tracking-tighter leading-none">Sewa Villa Bali 3D2N</h3>
                     <p className="text-[9px] font-black text-accent-green uppercase tracking-[0.2em] mt-2">Status: Dana Sedang Digunakan</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-6 text-right">
                   <div>
                     <p className="text-[9px] font-black text-dark-green/30 uppercase tracking-widest">Dicairkan</p>
-                    <p className="text-lg font-black text-red-500 italic tracking-tighter">3.500.000 IDRX</p>
+                    <p className="text-lg font-black text-red-500 tracking-tighter">3.500.000 IDRX</p>
                   </div>
                   <div className="h-10 w-[1px] bg-dark-green/5 hidden md:block"></div>
                   <div>
                     <p className="text-[9px] font-black text-dark-green/30 uppercase tracking-widest">Sisa Escrow</p>
-                    <p className="text-lg font-black text-accent-green italic tracking-tighter">1.500.000 IDRX</p>
+                    <p className="text-lg font-black text-accent-green tracking-tighter">1.500.000 IDRX</p>
                   </div>
                 </div>
               </div>
@@ -145,12 +145,12 @@ export default function RiwayatTerintegrasiPage() {
                       <i className="fas fa-file-invoice"></i>
                     </div>
                     <div>
-                      <h4 className="text-[11px] font-black uppercase tracking-tight">DP Villa Amore Seminyak</h4>
+                      <h4 className="text-sm font-black uppercase tracking-tight">DP Villa Amore Seminyak</h4>
                       <p className="text-[9px] font-bold text-dark-green/30 uppercase tracking-widest mt-1">Verified on Base</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-8">
-                    <p className="text-sm font-black italic">2.000.000 IDRX</p>
+                    <p className="text-sm font-black">2.000.000 IDRX</p>
                     <button className="bg-white border border-dark-green/10 text-[9px] font-black uppercase px-4 py-2 rounded-xl hover:bg-dark-green hover:text-milk transition-all shadow-sm">
                       <i className="fas fa-image mr-1"></i> Bukti
                     </button>
@@ -158,7 +158,7 @@ export default function RiwayatTerintegrasiPage() {
                   </div>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-dashed border-dark-green/5 flex items-center justify-between">
+                <div className="mt-8 pt-7 border-t border-dashed border-dark-green/5 flex items-center justify-between">
                   <Link href="#" className="text-[10px] font-black text-accent-green hover:underline uppercase tracking-widest flex items-center gap-2">
                     <i className="fas fa-link text-[8px]"></i> Lihat Smart Contract
                   </Link>

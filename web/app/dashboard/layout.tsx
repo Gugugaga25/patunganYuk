@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
               <Link href="/" className="flex ms-2 items-center gap-2">
                 <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center text-milk font-black shadow-md">P</div>
-                <span className="text-lg font-extrabold tracking-tight uppercase italic">
+                <span className="text-lg font-extrabold tracking-tight uppercase">
                   Patungan <span className="text-accent-green">Web3</span>
                 </span>
               </Link>

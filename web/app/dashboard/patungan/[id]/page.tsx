@@ -72,7 +72,7 @@ export default function DetailPatunganPage() {
                 </div>
                 <div>
                   <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Liburan</span>
-                  <h1 className="text-3xl font-black uppercase italic tracking-tight mt-2">Sewa Villa Bali 3D2N</h1>
+                  <h1 className="text-3xl font-black uppercase tracking-tight mt-2">Sewa Villa Bali 3D2N</h1>
                   <p className="text-sm text-deep-gray font-bold mt-2">
                     Organizer: <span className="text-accent-green">@boss_kantor</span> · Berakhir: 30 Des 2025
                   </p>
@@ -97,7 +97,7 @@ export default function DetailPatunganPage() {
                     4.040.000 IDRX <span className="text-sm text-dark-green/60">/ 6.060.000 IDRX</span>
                   </p>
                 </div>
-                <span className="text-2xl font-black text-accent-green italic">67%</span>
+                <span className="text-2xl font-black text-accent-green">67%</span>
               </div>
               <div className="w-full bg-white h-4 rounded-full border border-dark-green/5 p-1 overflow-hidden">
                 <div className="bg-accent-green h-full rounded-full transition-all duration-1000" style={{ width: "67%" }}></div>
@@ -155,7 +155,7 @@ export default function DetailPatunganPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-20 opacity-30 italic text-xs uppercase font-black">Peserta tidak ditemukan...</div>
+                  <div className="text-center py-20 opacity-30 text-xs uppercase font-black">Peserta tidak ditemukan...</div>
                 )}
               </div>
 
@@ -180,10 +180,10 @@ export default function DetailPatunganPage() {
         {/* ASIDE KANAN: Pembayaran */}
         <aside className="space-y-6">
           <div className="bg-white p-8 rounded-[2.5rem] border border-dark-green/5 shadow-sm sticky top-24">
-            <h2 className="text-lg font-black uppercase tracking-widest mb-6 italic text-dark-green">Bayar Patungan</h2>
+            <h2 className="text-lg font-black uppercase tracking-widest mb-6 text-dark-green">Bayar Patungan</h2>
             <div className="bg-milk p-6 rounded-2xl border border-dark-green/5 mb-6 text-dark-green">
               <p className="text-[11px] font-black uppercase tracking-widest text-deep-gray">Nominal Patungan Anda</p>
-              <p className="text-2xl font-black mt-2 italic">505.000 IDRX</p>
+              <p className="text-2xl font-black mt-2">505.000 IDRX</p>
 
               <button onClick={() => setShowDetailKanan(!showDetailKanan)} className="mt-4 font-black text-accent-green text-[11px] flex items-center gap-2 uppercase transition-all hover:opacity-70">
                 Detail Perincian

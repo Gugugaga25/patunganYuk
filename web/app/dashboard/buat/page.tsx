@@ -39,7 +39,7 @@ export default function BuatPatunganPage() {
             <div className="space-y-3">
               <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Target Dana (IDRX)</label>
               <div className="relative">
-                <span className="absolute left-4 top-4 text-[11px] font-black text-dark-green/30">RP</span>
+                <span className="absolute left-4 top-4 text-[11px] font-black text-dark-green/30">IDRX</span>
                 <input type="number" placeholder="0" className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 pl-12 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 outline-none" />
               </div>
             </div>
@@ -58,37 +58,21 @@ export default function BuatPatunganPage() {
             <span className="w-10 h-10 bg-white text-accent-green rounded-xl flex items-center justify-center shadow-sm">
               <i className="fas fa-university" />
             </span>
-            Rekening Pencairan Akhir
+            Wallet Pencairan Dana
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 relative z-10">
-            <div className="md:col-span-4 space-y-2">
-              <label className="text-[9px] font-black text-accent-green uppercase tracking-widest ml-1">Bank</label>
-              <select className="w-full bg-white border-none rounded-xl p-4 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 shadow-sm appearance-none cursor-pointer outline-none">
-                <option>BCA</option>
-                <option>MANDIRI</option>
-                <option>BRI</option>
-                <option>GOPAY / E-WALLET</option>
-              </select>
-            </div>
 
-            <div className="md:col-span-8 space-y-2">
-              <label className="text-[9px] font-black text-accent-green uppercase tracking-widest ml-1">Nomor Rekening</label>
+            <div className="md:col-span-12 space-y-2">
+              <label className="text-[9px] font-black text-accent-green uppercase tracking-widest ml-1">Alamat Wallet</label>
               <div className="flex gap-3">
-                <input type="number" placeholder="NOMOR REKENING" className="flex-1 bg-white border-none rounded-xl p-4 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 shadow-sm outline-none" />
+                <input type="text" placeholder="0x..." className="flex-1 bg-white border-none rounded-xl p-4 text-[11px] font-black focus:ring-2 focus:ring-accent-green/20 shadow-sm outline-none" />
+                <div className="absolute right-20 top-10 flex items-center text-dark-green/10">
+                  <i className="fas fa-user-check" />
+                </div>
                 <button type="button" className="bg-dark-green text-milk w-14 rounded-xl shadow-lg hover:bg-black transition-all flex items-center justify-center active:scale-95 group/btn">
                   <i className="fas fa-search text-sm group-hover/btn:scale-110 transition-transform" />
                 </button>
-              </div>
-            </div>
-
-            <div className="md:col-span-12 space-y-2 mt-2">
-              <label className="text-[9px] font-black text-accent-green uppercase tracking-widest ml-1">Verifikasi Nama Pemilik</label>
-              <div className="relative">
-                <input type="text" readOnly placeholder="KLIK CARI UNTUK VALIDASI..." className="w-full bg-white/40 border-2 border-dashed border-accent-green/20 rounded-xl p-4 text-[10px] font-black text-dark-green/40 cursor-not-allowed uppercase tracking-widest outline-none" />
-                <div className="absolute inset-y-0 right-4 flex items-center text-dark-green/10">
-                  <i className="fas fa-user-check" />
-                </div>
               </div>
             </div>
           </div>
