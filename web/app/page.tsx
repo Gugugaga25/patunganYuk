@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -7,9 +8,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center">
           <div className="flex-1 flex items-center">
             <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center text-milk font-black shadow-md">P</div>
+              <div>
+                <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+              </div>
               <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
-                Patungan <span className="text-accent-green">Web3</span>
+                Patungan<span className="text-accent-green">Yuk</span>
               </span>
             </div>
           </div>
@@ -276,9 +279,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-dark-green">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center font-black text-milk shadow-sm">P</div>
+              <div>
+                <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+              </div>
               <span className="font-black text-xl tracking-tight uppercase">
-                Patungan <span className="text-accent-green">Web3</span>
+                Patungan<span className="text-accent-green">Yuk</span>
               </span>
             </div>
             <p className="max-w-xs text-[11px] text-deep-gray font-medium leading-relaxed uppercase tracking-wider">Platform Native IDRX Group Funding pertama di Base Blockchain. Aman, Transparan, Gasless.</p>

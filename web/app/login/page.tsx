@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -132,7 +133,9 @@ export default function LoginPage() {
         {/* --- FORM LOGIN --- */}
         <div className="form-container sign-in-container">
           <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
-            <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk font-black text-xl shadow-lg rotate-3">P</div>
+            <div>
+              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+            </div>
             <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Masuk</h1>
             <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Gunakan Akun Anda</p>
             <div className="w-full space-y-3">
@@ -155,7 +158,9 @@ export default function LoginPage() {
         {/* --- FORM REGISTER (SIGN UP) --- */}
         <div className="form-container sign-up-container">
           <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
-            <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk font-black text-xl shadow-lg rotate-3">P</div>
+            <div>
+              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+            </div>
             <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Buat Akun</h1>
             <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Mulai Perjalanan Web3 Anda</p>
 
