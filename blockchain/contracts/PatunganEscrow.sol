@@ -10,6 +10,7 @@ contract PatunganEscrow is ReentrancyGuard {
     struct RoomInfo {
         string title;
         address organizer;
+        address recipient; 
         address tokenAddress; 
         uint256 targetAmount;
         uint256 currentBalance;
@@ -27,11 +28,11 @@ contract PatunganEscrow is ReentrancyGuard {
 
     event Deposited(address indexed user, uint256 amount);
     event ValidatorsSelected(address[] selectedValidators);
-    event Disbursed(address indexed organizer, uint256 amount);
-    event Refunded(address indexed user, uint256 amount);
+    event Disbursed(address indexed recipient, uint256 amount);
+    event ETHReceived(address indexed sender, uint256 amount);
 
-    modifier onlyOrganizer() {
-        require(msg.sender == info.organizer, "Hanya penyelenggara");
+    modifier onlyAdmin() {
+        require(msg.sender == platformAdmin, "Hanya platform admin");
         _;
     }
 
@@ -50,6 +51,7 @@ contract PatunganEscrow is ReentrancyGuard {
     constructor(
         string memory _title,
         address _organizer,
+        address _recipient,
         address _tokenAddress,
         uint256 _targetAmount,
         uint256 _duration,
@@ -58,6 +60,7 @@ contract PatunganEscrow is ReentrancyGuard {
         info = RoomInfo({
             title: _title,
             organizer: _organizer,
+            recipient: _recipient,
             tokenAddress: _tokenAddress,
             targetAmount: _targetAmount,
             currentBalance: 0,
@@ -65,6 +68,10 @@ contract PatunganEscrow is ReentrancyGuard {
             status: Status.Open
         });
         platformAdmin = _platformAdmin;
+    }
+
+    receive() external payable {
+        emit ETHReceived(msg.sender, msg.value);
     }
 
     function deposit(uint256 _amount) external nonReentrant {
@@ -131,16 +138,40 @@ contract PatunganEscrow is ReentrancyGuard {
     function _disburseFunds() internal {
         info.status = Status.Disbursed;
         
-        // Fee 1%, Min 2.000 (Asumsi 6 desimal IDRX: 2000 * 10^6)
         uint256 fee = (info.currentBalance * 1) / 100;
         uint256 minFee = 2000 * 10**6; 
         if (fee < minFee) fee = minFee;
 
-        uint256 amountToOrganizer = info.currentBalance - fee;
+        uint256 amountToRecipient = info.currentBalance - fee;
+        IERC20(info.tokenAddress).transfer(info.recipient, amountToRecipient);
 
-        IERC20(info.tokenAddress).transfer(platformAdmin, fee);
-        IERC20(info.tokenAddress).transfer(info.organizer, amountToOrganizer);
+        emit Disbursed(info.recipient, amountToRecipient);
+    }
 
-        emit Disbursed(info.organizer, amountToOrganizer);
+    function withdrawAdminFees() external onlyAdmin nonReentrant {
+        require(info.status == Status.Disbursed, "Dana patungan harus dicairkan ke penerima dulu");
+        
+        uint256 balance = IERC20(info.tokenAddress).balanceOf(address(this));
+        require(balance > 0, "Tidak ada fee untuk ditarik");
+        IERC20(info.tokenAddress).transfer(platformAdmin, balance);
+    }
+
+    function withdrawETH() external onlyAdmin {
+        require(info.status == Status.Disbursed || info.status == Status.Cancelled, "Hanya bisa tarik ETH setelah proyek selesai");
+        
+        uint256 ethBalance = address(this).balance;
+        require(ethBalance > 0, "Tidak ada ETH");
+
+        (bool success, ) = payable(platformAdmin).call{value: ethBalance}("");
+        require(success, "Gagal mengirim ETH");
+    }
+
+    function getCurrentBalance() external view returns (uint256) {
+        return info.currentBalance;
+    }
+
+    function getRemainingAmount() external view returns (uint256) {
+        if (info.currentBalance >= info.targetAmount) return 0;
+        return info.targetAmount - info.currentBalance;
     }
 }

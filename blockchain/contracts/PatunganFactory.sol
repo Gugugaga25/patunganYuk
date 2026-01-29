@@ -7,32 +7,39 @@ contract PatunganFactory {
     address public platformAdmin;
     address[] public allRooms;
 
-    event RoomCreated(address indexed roomAddress, address indexed organizer, string title);
+    // Menambahkan recipient ke event agar mudah dilacak oleh Supabase Indexer
+    event RoomCreated( 
+        address indexed roomAddress, 
+        address indexed organizer, 
+        address indexed recipient, 
+        string title
+    );
 
     constructor() {
-        platformAdmin = msg.sender; // Orang yang deploy factory jadi admin default
+        platformAdmin = msg.sender; 
     }
 
     function createRoom(
         string memory _title,
+        address _recipient, 
         address _tokenAddress,
         uint256 _targetAmount,
         uint256 _duration
     ) external returns (address) {
-        // Deploy kontrak PatunganEscrow baru
         PatunganEscrow newRoom = new PatunganEscrow(
             _title,
-            msg.sender, // Penyelenggara adalah orang yang memanggil fungsi ini
+            msg.sender,    
+            _recipient,     
             _tokenAddress,
             _targetAmount,
             _duration,
-            platformAdmin
+            platformAdmin   
         );
 
         address roomAddress = address(newRoom);
         allRooms.push(roomAddress);
 
-        emit RoomCreated(roomAddress, msg.sender, _title);
+        emit RoomCreated(roomAddress, msg.sender, _recipient, _title);
         
         return roomAddress;
     }
@@ -41,7 +48,6 @@ contract PatunganFactory {
         return allRooms;
     }
     
-    // Fungsi untuk mengganti admin jika diperlukan di masa depan
     function setPlatformAdmin(address _newAdmin) external {
         require(msg.sender == platformAdmin, "Hanya admin");
         platformAdmin = _newAdmin;

@@ -53,7 +53,7 @@ export default function PatunganSayaPage() {
               </div>
               <div>
                 <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Liburan</span>
-                <h3 className="text-xl font-black mt-2 uppercase italic tracking-tight leading-none">Sewa Villa Bali 3D2N</h3>
+                <h3 className="text-xl font-black mt-2 uppercase tracking-tight leading-none">Sewa Villa Bali 3D2N</h3>
               </div>
             </div>
             <span className="text-[9px] font-black text-dark-green/60 bg-milk px-3 py-1 rounded-md uppercase tracking-widest border border-dark-green/10">Member</span>
@@ -64,13 +64,13 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 4.200.000 <span className="text-sm font-bold text-dark-green/60">/ 5JT</span>
+                  4.040.000 IDRX <span className="text-sm font-bold text-dark-green/60">/ 6.060.000 IDRX</span>
                 </p>
               </div>
-              <span className="text-2xl font-black text-accent-green italic">84%</span>
+              <span className="text-2xl font-black text-accent-green">67%</span>
             </div>
             <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
-              <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "84%" }}></div>
+              <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "67%" }}></div>
             </div>
           </div>
 
@@ -94,7 +94,7 @@ export default function PatunganSayaPage() {
               </div>
               <div>
                 <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Olahraga</span>
-                <h3 className="text-xl font-black mt-2 uppercase italic tracking-tight leading-none">Futsal Mingguan</h3>
+                <h3 className="text-xl font-black mt-2 uppercase tracking-tight leading-none">Futsal Mingguan</h3>
               </div>
             </div>
             <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest border border-accent-green/20">Admin</span>
@@ -105,10 +105,10 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 150.000 <span className="text-sm font-bold text-dark-green/60">/ 300K</span>
+                  151.500 IDRX <span className="text-sm font-bold text-dark-green/60">/ 303.000 IDRX</span>
                 </p>
               </div>
-              <span className="text-2xl font-black text-accent-green italic">50%</span>
+              <span className="text-2xl font-black text-accent-green">50%</span>
             </div>
             <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
               <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "50%" }}></div>
@@ -135,7 +135,7 @@ export default function PatunganSayaPage() {
               </div>
               <div>
                 <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Fasilitas</span>
-                <h3 className="text-xl font-black mt-2 uppercase italic tracking-tight leading-none">Meja Pingpong</h3>
+                <h3 className="text-xl font-black mt-2 uppercase tracking-tight leading-none">Meja Pingpong</h3>
               </div>
             </div>
             <span className="text-[9px] font-black text-dark-green/60 bg-milk px-3 py-1 rounded-md uppercase tracking-widest border border-dark-green/10">Member</span>
@@ -146,10 +146,10 @@ export default function PatunganSayaPage() {
               <div>
                 <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
                 <p className="text-lg font-black">
-                  Rp 1.500.000 <span className="text-sm font-bold text-dark-green/60">/ 1.5JT</span>
+                  1.515.000 IDRX <span className="text-sm font-bold text-dark-green/60">/ 1.515.000 IDRX </span>
                 </p>
               </div>
-              <span className="text-2xl font-black text-accent-green italic">100%</span>
+              <span className="text-2xl font-black text-accent-green">100%</span>
             </div>
             <div className="w-full bg-accent-green/10 h-4 rounded-full border border-accent-green/10 overflow-hidden p-1">
               <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(18,183,106,0.4)]" style={{ width: "100%" }}></div>
@@ -159,7 +159,7 @@ export default function PatunganSayaPage() {
           <div className="flex items-center justify-between pt-6 border-t border-dark-green/5">
             <div className="flex items-center gap-2 text-accent-green">
               <i className="fas fa-hourglass-half text-xs animate-spin-slow"></i>
-              <span className="text-[10px] font-black uppercase tracking-widest italic">Pencairan: Validasi (2/3)</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">Pencairan: Validasi (2/3)</span>
             </div>
             <Link href="/dashboard/patungan/pantau-pingpong" className="bg-dark-green text-milk px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 shadow-lg text-center">
               Pantau Dana
@@ -172,7 +172,7 @@ export default function PatunganSayaPage() {
           <div className="w-16 h-16 bg-milk text-dark-green/10 rounded-full flex items-center justify-center text-2xl group-hover:bg-accent-green group-hover:text-milk transition-all duration-500 mb-4 shadow-inner">
             <i className="fas fa-plus"></i>
           </div>
-          <h4 className="text-lg font-black text-dark-green/30 group-hover:text-dark-green transition-all uppercase italic tracking-tighter">Buat Patungan Baru</h4>
+          <h4 className="text-lg font-black text-dark-green/30 group-hover:text-dark-green transition-all uppercase tracking-tighter">Buat Patungan Baru</h4>
           <p className="text-[10px] font-bold text-dark-green/20 uppercase tracking-[0.2em] max-w-[220px] mt-2 group-hover:text-dark-green/60 transition-all">Mulai penggalangan dana grup Anda sekarang.</p>
         </Link>
       </div>
