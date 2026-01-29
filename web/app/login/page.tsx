@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabaseBrowser } from '@/src/lib/supabase/browser';
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
 import Link from "next/link";
-
+import Image from "next/image";
 
 export default function LoginPage() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -14,13 +14,13 @@ export default function LoginPage() {
   const [showRegPass, setShowRegPass] = useState(false);
   const [showRegConfirmPass, setShowRegConfirmPass] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [nama, setNama] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [nama, setNama] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [emailLogin, setEmailLogin] = useState('');
-  const [passwordLogin, setPasswordLogin] = useState('');
+  const [emailLogin, setEmailLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
 
   // Fungsi Bypass: Langsung ke Dashboard tanpa verifikasi
   // const handleBypassLogin = (e?: React.FormEvent) => {
@@ -29,8 +29,8 @@ export default function LoginPage() {
   // };
 
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     const { data, error } = await supabaseBrowser.auth.signUp({
       email,
@@ -40,38 +40,38 @@ export default function LoginPage() {
           nama: nama,
         },
       },
-    })
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (error) {
-      console.error('Register error:', error.message)
-      return
+      console.error("Register error:", error.message);
+      return;
     }
 
-    console.log('REGISTER SUCCESS:', data)
+    console.log("REGISTER SUCCESS:", data);
     router.push("/dashboard");
-  }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     const { data, error } = await supabaseBrowser.auth.signInWithPassword({
-      email:emailLogin,
-      password:passwordLogin
-    })
+      email: emailLogin,
+      password: passwordLogin,
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (error) {
-      console.error('Login error:', error.message)
-      return
+      console.error("Login error:", error.message);
+      return;
     }
 
-    console.log('LOGIN SUCCESS:', data)
-    setTimeout(() => router.push('/dashboard'), 100)
-  }
+    console.log("LOGIN SUCCESS:", data);
+    setTimeout(() => router.push("/dashboard"), 100);
+  };
 
   return (
     <div className="bg-milk flex justify-center items-center flex-col h-screen overflow-hidden text-dark-green relative">
@@ -187,27 +187,17 @@ export default function LoginPage() {
         {/* --- FORM LOGIN --- */}
         <div className="form-container sign-in-container">
           <form onSubmit={handleLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
-            <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk font-black text-xl shadow-lg rotate-3">P</div>
-            <h1 className="font-black text-3xl uppercase italic tracking-tighter text-dark-green">Masuk</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-2">Gunakan Akun Anda</p>
+            <div>
+              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+            </div>
+            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Masuk</h1>
+            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Gunakan Akun Anda</p>
             <div className="w-full space-y-3">
-              <input 
-                type="text" 
-                placeholder="EMAIL"
-                value={emailLogin} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[11px] font-black uppercase tracking-widest outline-none" 
-                onChange={(e)=>setEmailLogin(e.target.value)}
-              />
+              <input type="text" placeholder="EMAIL" value={emailLogin} className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[11px] font-black uppercase tracking-widest outline-none" onChange={(e) => setEmailLogin(e.target.value)} />
 
               {/* Input Password dengan Tombol Mata */}
               <div className="relative w-full">
-                <input 
-                  type={showLoginPass ? "text" : "password"} 
-                  placeholder="PASSWORD" 
-                  value={passwordLogin}
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[11px] font-black uppercase tracking-widest outline-none" 
-                  onChange={(e)=>setPasswordLogin(e.target.value)}
-                />
+                <input type={showLoginPass ? "text" : "password"} placeholder="PASSWORD" value={passwordLogin} className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[11px] font-black uppercase tracking-widest outline-none" onChange={(e) => setPasswordLogin(e.target.value)} />
                 <button type="button" onClick={() => setShowLoginPass(!showLoginPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition-colors">
                   <i className={`fas ${showLoginPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
@@ -222,33 +212,18 @@ export default function LoginPage() {
         {/* --- FORM REGISTER (SIGN UP) --- */}
         <div className="form-container sign-up-container">
           <form onSubmit={handleRegister} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
-            <h1 className="font-black text-3xl uppercase italic tracking-tighter text-dark-green">Buat Akun</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-2">Mulai Perjalanan Web3 Anda</p>
+            <div>
+              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+            </div>
+            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Buat Akun</h1>
+            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Mulai Perjalanan Web3 Anda</p>
 
             <div className="w-full space-y-2">
-              <input 
-                type="text" 
-                placeholder="NAMA LENGKAP"
-                value={nama} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none"
-                onChange={(e) => setNama(e.target.value)}  
-              />
-              <input 
-                type="email" 
-                placeholder="EMAIL"
-                value={email} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none" 
-                onChange={(e) => setEmail(e.target.value)}  
-              />
+              <input type="text" placeholder="NAMA LENGKAP" value={nama} className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none" onChange={(e) => setNama(e.target.value)} />
+              <input type="email" placeholder="EMAIL" value={email} className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none" onChange={(e) => setEmail(e.target.value)} />
               {/* Password Register */}
               <div className="relative w-full">
-                <input 
-                  type={showRegPass ? "text" : "password"} 
-                  placeholder="PASSWORD" 
-                  value={password}
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none"
-                  onChange={(e) => setPassword(e.target.value)}  
-                />
+                <input type={showRegPass ? "text" : "password"} placeholder="PASSWORD" value={password} className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none" onChange={(e) => setPassword(e.target.value)} />
                 <button type="button" onClick={() => setShowRegPass(!showRegPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition">
                   <i className={`fas ${showRegPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
@@ -256,11 +231,7 @@ export default function LoginPage() {
 
               {/* Konfirmasi Password */}
               <div className="relative w-full">
-                <input 
-                  type={showRegConfirmPass ? "text" : "password"} 
-                  placeholder="KONFIRMASI PASSWORD" 
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none"
-                 />
+                <input type={showRegConfirmPass ? "text" : "password"} placeholder="KONFIRMASI PASSWORD" className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none" />
                 <button type="button" onClick={() => setShowRegConfirmPass(!showRegConfirmPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition">
                   <i className={`fas ${showRegConfirmPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
