@@ -4,11 +4,26 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+// 1. Import komponen dari OnchainKit dan Wagmi
+import { 
+  ConnectWallet, 
+  Wallet, 
+  WalletDropdown, 
+  WalletDropdownDisconnect 
+} from "@coinbase/onchainkit/wallet";
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from "@coinbase/onchainkit/identity";
+import { useAccount } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { isConnected } = useAccount(); // Cek status koneksi wallet
 
-  // Helper untuk mengecek link aktif
   const isActive = (path: string) => pathname === path;
 
   return (
@@ -23,31 +38,47 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
               <Link href="/" className="flex ms-2 items-center gap-2">
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <div>
-                    <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
-                  </div>
+                  <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
                   <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
                     Patungan<span className="text-accent-green">Yuk</span>
                   </span>
                 </div>
               </Link>
             </div>
+
+            {/* 2. AREA WALLET (Dinamis) */}
             <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center bg-white border border-dark-green/10 px-4 py-2 rounded-full shadow-sm">
-                <div className="w-2 h-2 bg-accent-green rounded-full mr-3 animate-pulse"></div>
-                <span className="text-[10px] font-black font-mono text-dark-green/60">0x71C...3E4F</span>
-              </div>
-              <img className="w-10 h-10 rounded-2xl border-2 border-white shadow-md" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="user" />
+              <Wallet>
+                <ConnectWallet className="bg-dark-green text-milk hover:bg-black rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all shadow-lg">
+                  <Avatar className="h-6 w-6" />
+                  <Name className="text-milk" />
+                </ConnectWallet>
+                <WalletDropdown className="bg-white border border-dark-green/5 rounded-2xl shadow-2xl p-4">
+                  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                    <Avatar />
+                    <Name />
+                    <Address className="text-deep-gray" />
+                    <EthBalance />
+                  </Identity>
+                  <WalletDropdownDisconnect className="hover:bg-red-50 text-red-400 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all" />
+                </WalletDropdown>
+              </Wallet>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Sidebar */}
+      {/* Sidebar - Bagian Buat Patungan (Hanya muncul jika sudah connect) */}
       <aside className="fixed top-0 left-0 z-40 w-64 h-screen pt-24 bg-white border-r border-dark-green/5 transition-transform -translate-x-full sm:translate-x-0">
         <div className="h-full px-4 pb-4 overflow-y-auto flex flex-col">
           <div className="mb-8">
-            <Link href="/dashboard/buat" className="flex items-center justify-center gap-3 w-full py-4 bg-dark-green text-milk rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-dark-green/10 hover:-translate-y-1 transition-all active:scale-95">
+            <Link 
+              href={isConnected ? "/dashboard/buat" : "#"} 
+              onClick={() => !isConnected && alert("Hubungkan wallet kamu dulu, Capt!")}
+              className={`flex items-center justify-center gap-3 w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95 ${
+                isConnected ? "bg-dark-green text-milk shadow-dark-green/10 hover:-translate-y-1" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              }`}
+            >
               <i className="fas fa-plus-circle"></i>
               Buat Patungan
             </Link>
