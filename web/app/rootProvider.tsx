@@ -3,14 +3,19 @@
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { base } from "wagmi/chains";
-import { coinbaseWallet } from "wagmi/connectors";
+import { baseSepolia } from "wagmi/chains"; // GANTI: Pakai baseSepolia
+import { coinbaseWallet, injected } from "wagmi/connectors"; // TAMBAH: injected untuk MetaMask
 import { ReactNode, useState } from "react";
 
 const config = createConfig({
-  chains: [base],
-  connectors: [coinbaseWallet({ appName: "PatunganWeb3" })],
-  transports: { [base.id]: http() },
+  chains: [baseSepolia], // GANTI: base -> baseSepolia
+  connectors: [
+    coinbaseWallet({ appName: "PatunganWeb3" }),
+    injected(), // TAMBAH: Agar bisa pakai MetaMask/Browser Wallet lain
+  ],
+  transports: { 
+    [baseSepolia.id]: http() // GANTI: base -> baseSepolia
+  },
 });
 
 export default function RootProvider({ children }: { children: ReactNode }) {
@@ -19,7 +24,10 @@ export default function RootProvider({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider chain={base}>{children}</OnchainKitProvider>
+        {/* GANTI: chain di OnchainKitProvider juga harus baseSepolia */}
+        <OnchainKitProvider chain={baseSepolia}>
+          {children}
+        </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

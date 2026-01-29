@@ -19,7 +19,7 @@ export default function ValidatorPage() {
               <i className="fas fa-table-tennis-paddle-ball" />
             </div>
             <div>
-              <h3 className="text-2xl font-black uppercase italic tracking-tighter">Beli Meja Pingpong</h3>
+              <h3 className="text-2xl font-black uppercase tracking-tighter">Beli Meja Pingpong</h3>
               <p className="text-[10px] font-black text-accent-green uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
                 <span className="w-2 h-2 bg-accent-green rounded-full animate-ping" />
                 Menunggu Suara Anda
@@ -28,7 +28,7 @@ export default function ValidatorPage() {
           </div>
           <div className="text-right bg-dark-green p-5 rounded-2xl text-milk border border-white/5 shadow-xl">
             <p className="text-[9px] font-black opacity-60 uppercase tracking-widest mb-1">Jumlah Pencairan</p>
-            <p className="text-2xl font-black italic tracking-tighter leading-none">Rp 1.500.000</p>
+            <p className="text-2xl font-black tracking-tighter leading-none">1.500.000 IDRX</p>
           </div>
         </div>
 
@@ -39,7 +39,7 @@ export default function ValidatorPage() {
             <div className="space-y-8">
               <div className="space-y-3">
                 <label className="text-[10px] font-black text-dark-green/80 uppercase tracking-[0.2em] ml-1">Detail Pengeluaran</label>
-                <p className="text-sm font-bold text-dark-green/80 mt-4 leading-relaxed bg-milk p-6 rounded-2xl italic border-l-4 border-accent-green">"Pembelian meja pingpong merk Butterfly sesuai kesepakatan grup di grup WA. Unit akan diletakkan di ruang tengah kantor."</p>
+                <p className="text-sm font-bold text-dark-green/80 mt-4 leading-relaxed bg-milk p-6 rounded-2xl border-l-4 border-accent-green">"Pembelian meja pingpong merk Butterfly sesuai kesepakatan grup di grup WA. Unit akan diletakkan di ruang tengah kantor."</p>
               </div>
               <div className="space-y-3">
                 <label className="text-[10px] font-black text-dark-green/80 uppercase tracking-[0.2em] ml-1">Bukti Kuitansi (On-Chain)</label>
@@ -55,7 +55,7 @@ export default function ValidatorPage() {
               <div className="bg-milk p-8 rounded-[2rem] border border-dark-green/5">
                 <div className="flex items-center justify-between mb-4">
                   <label className="text-[10px] font-black text-dark-green/80 uppercase tracking-[0.2em]">Status Konsensus</label>
-                  <span className="text-xl font-black text-accent-green italic">2/3</span>
+                  <span className="text-xl font-black text-accent-green">2/3</span>
                 </div>
 
                 {/* Progress Bar Konsensus */}
@@ -63,7 +63,7 @@ export default function ValidatorPage() {
                   <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(18,183,106,0.4)]" style={{ width: "66.6%" }} />
                 </div>
 
-                <p className="text-[11px] font-bold text-deep-gray uppercase tracking-tight leading-relaxed">Satu suara verifikasi lagi diperlukan agar dana dapat otomatis cair ke rekening tujuan.</p>
+                <p className="text-[11px] font-bold text-deep-gray uppercase tracking-tight leading-relaxed">Satu suara verifikasi lagi diperlukan agar dana dapat otomatis cair ke wallet tujuan.</p>
               </div>
 
               {/* Tombol Aksi */}

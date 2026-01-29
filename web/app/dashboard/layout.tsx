@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,10 +22,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <i className="fas fa-bars text-xl"></i>
               </button>
               <Link href="/" className="flex ms-2 items-center gap-2">
-                <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center text-milk font-black shadow-md">P</div>
-                <span className="text-lg font-extrabold tracking-tight uppercase italic">
-                  Patungan <span className="text-accent-green">Web3</span>
-                </span>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <div>
+                    <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+                  </div>
+                  <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
+                    Patungan<span className="text-accent-green">Yuk</span>
+                  </span>
+                </div>
               </Link>
             </div>
             <div className="flex items-center gap-4">
