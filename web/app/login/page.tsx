@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabaseBrowser } from '@/src/lib/supabase/browser';
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -10,67 +10,82 @@ export default function LoginPage() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const router = useRouter();
 
-  const [showLoginPass, setShowLoginPass] = useState(false);
+  // State untuk Notifikasi & Loading
+  const [showError, setShowError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [errorTitle, setErrorTitle] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // State Input Register (Mendukung Mixed-Case)
+  const [email, setEmail] = useState("");
+  const [nama, setNama] = useState("");
+  const [password, setPassword] = useState("");
   const [showRegPass, setShowRegPass] = useState(false);
   const [showRegConfirmPass, setShowRegConfirmPass] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [nama, setNama] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  // State Input Login (Mendukung Mixed-Case)
+  const [emailLogin, setEmailLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
+  const [showLoginPass, setShowLoginPass] = useState(false);
 
-  const [emailLogin, setEmailLogin] = useState('');
-  const [passwordLogin, setPasswordLogin] = useState('');
-
-  // Fungsi Bypass: Langsung ke Dashboard tanpa verifikasi
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     const { data, error } = await supabaseBrowser.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          nama: nama,
-        },
-      },
-    })
+      options: { data: { nama: nama } },
+    });
 
-    setLoading(false)
+    setLoading(false);
 
     if (error) {
-      console.error('Register error:', error.message)
-      return
+      setErrorTitle("Gagal Daftar");
+      setErrorMsg(error.message);
+      setShowError(true);
+      setTimeout(() => setShowError(false), 4000);
+      return;
     }
-
-    console.log('REGISTER SUCCESS:', data)
     router.push("/dashboard");
-  }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     const { data, error } = await supabaseBrowser.auth.signInWithPassword({
-      email:emailLogin,
-      password:passwordLogin
-    })
-
-    setLoading(false)
+      email: emailLogin,
+      password: passwordLogin,
+    });
 
     if (error) {
-      console.error('Login error:', error.message)
-      return
+      setLoading(false);
+      const msg = error.message.toLowerCase();
+
+      // LOGIKA PEMBEDA NOTIFIKASI
+      if (msg.includes("invalid login credentials")) {
+        setErrorTitle("Kredensial Salah");
+        setErrorMsg("Email atau Password yang kamu masukkan tidak cocok.");
+      } else if (msg.includes("email not found") || msg.includes("user not found")) {
+        setErrorTitle("Email Tidak Ada");
+        setErrorMsg("Email ini belum terdaftar di sistem PatunganYuk.");
+      } else {
+        setErrorTitle("Gagal Masuk");
+        setErrorMsg(error.message);
+      }
+
+      setShowError(true);
+      setTimeout(() => setShowError(false), 4000);
+      return;
     }
 
-    console.log('LOGIN SUCCESS:', data)
-    setTimeout(() => router.push('/dashboard'), 100)
-  }
+    setLoading(false);
+    setTimeout(() => router.push("/dashboard"), 100);
+  };
 
   return (
-    <div className="bg-milk flex justify-center items-center flex-col h-screen overflow-hidden text-dark-green relative">
-      {/* CSS Lokal untuk Animasi Sliding */}
+    <div className="bg-milk flex justify-center items-center flex-col h-screen overflow-hidden text-dark-green relative font-sans">
       <style jsx>{`
         .form-container {
           position: absolute;
@@ -125,9 +140,6 @@ export default function LoginPage() {
         }
         .overlay {
           background: linear-gradient(135deg, #0a2e20 0%, #12b76a 100%);
-          background-repeat: no-repeat;
-          background-size: cover;
-          color: #fdfdf1;
           position: relative;
           left: -100%;
           height: 100%;
@@ -148,7 +160,6 @@ export default function LoginPage() {
           top: 0;
           height: 100%;
           width: 50%;
-          transform: translateX(0);
           transition: transform 0.6s ease-in-out;
         }
         .overlay-left {
@@ -164,130 +175,117 @@ export default function LoginPage() {
         .container.right-panel-active .overlay-right {
           transform: translateX(20%);
         }
+        @keyframes popIn {
+          from {
+            transform: translate(-50%, -20px);
+            opacity: 0;
+          }
+          to {
+            transform: translate(-50%, 0);
+            opacity: 1;
+          }
+        }
+        .animate-pop {
+          animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
       `}</style>
 
-      {/* Background Blobs */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute -top-20 -left-20 w-96 h-96 bg-accent-green/10 rounded-full filter blur-3xl animate-blob"></div>
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-dark-green/5 rounded-full filter blur-3xl animate-blob" style={{ animationDelay: "2s" }}></div>
-      </div>
+      {/* POPUP NOTIFIKASI ERROR */}
+      {showError && (
+        <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[200] animate-pop px-4 w-full max-w-sm">
+          <div className="bg-white border-2 border-red-500 rounded-3xl p-5 shadow-2xl flex items-center gap-4">
+            <div className="bg-red-500 text-white w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-red-200">
+              <i className="fas fa-triangle-exclamation"></i>
+            </div>
+            <div className="flex-1 text-left">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-red-600 leading-none">{errorTitle}</h4>
+              <p className="text-[10px] font-bold text-dark-green/70 uppercase leading-tight mt-1">{errorMsg}</p>
+            </div>
+            <button onClick={() => setShowError(false)} className="text-dark-green/20 hover:text-red-500 transition-colors">
+              <i className="fas fa-times text-xs"></i>
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* Tombol Kembali */}
+      {/* Tombol Beranda */}
       <Link href="/" className="absolute top-6 left-6 z-[110] flex items-center gap-2 hover:opacity-70 text-dark-green transition-all group bg-white/50 backdrop-blur-md py-2 px-5 rounded-full border border-dark-green/10 shadow-sm">
         <i className="fas fa-arrow-left text-[10px] group-hover:-translate-x-1 transition-transform"></i>
         <span className="text-[10px] font-black uppercase tracking-[0.2em]">Beranda</span>
       </Link>
 
-      <div className={`container bg-white rounded-[2.5rem] shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[600px] border border-dark-green/5 ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
-        {/* --- FORM LOGIN --- */}
+      <div className={`container bg-white rounded-[2.5rem] shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[600px] border border-dark-green/5 ${isRightPanelActive ? "right-panel-active" : ""}`}>
+        {/* PANEL MASUK */}
         <div className="form-container sign-in-container">
-          <form onSubmit={handleLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
-            <div>
-              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+          <form onSubmit={handleLogin} className="bg-white flex flex-col items-center justify-center h-full px-16 text-center space-y-6">
+            <Image src="/images/logo1.png" alt="logo" width={60} height={60} />
+            <div className="space-y-1">
+              <h1 className="font-black text-4xl uppercase tracking-tighter text-dark-green">Masuk</h1>
+              <p className="text-[9px] text-deep-gray font-bold uppercase tracking-[0.2em]">Gunakan Akun Anda</p>
             </div>
-            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Masuk</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Gunakan Akun Anda</p>
             <div className="w-full space-y-3">
-              <input 
-                type="text" 
-                placeholder="EMAIL"
-                value={emailLogin} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[11px] font-black uppercase tracking-widest outline-none" 
-                onChange={(e)=>setEmailLogin(e.target.value)}
-              />
+              {/* input tanpa 'uppercase' untuk mendukung mixed-case */}
+              <input type="email" placeholder="EMAIL" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 text-[11px] font-black placeholder:uppercase tracking-widest outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
 
-              {/* Input Password dengan Tombol Mata */}
               <div className="relative w-full">
-                <input 
-                  type={showLoginPass ? "text" : "password"} 
-                  placeholder="PASSWORD" 
-                  value={passwordLogin}
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[11px] font-black uppercase tracking-widest outline-none" 
-                  onChange={(e)=>setPasswordLogin(e.target.value)}
-                />
-                <button type="button" onClick={() => setShowLoginPass(!showLoginPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition-colors">
+                <input type={showLoginPass ? "text" : "password"} placeholder="PASSWORD" value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 pr-12 text-[11px] font-black placeholder:uppercase tracking-widest outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
+                <button type="button" onClick={() => setShowLoginPass(!showLoginPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-green/20 hover:text-accent-green transition-colors">
                   <i className={`fas ${showLoginPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
               </div>
             </div>
-            <button type="submit" className="w-full bg-accent-green text-milk font-black py-4 px-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-widest transition-all">
-              Masuk Sekarang
+            <button type="submit" disabled={loading} className="w-full bg-accent-green text-milk font-black py-5 rounded-2xl shadow-xl hover:bg-dark-green active:scale-95 text-[10px] uppercase tracking-[0.3em] transition-all disabled:opacity-50">
+              {loading ? <i className="fas fa-circle-notch animate-spin"></i> : "Masuk Sekarang"}
             </button>
           </form>
         </div>
 
-        {/* --- FORM REGISTER (SIGN UP) --- */}
+        {/* PANEL BUAT AKUN */}
         <div className="form-container sign-up-container">
-          <form onSubmit={handleRegister} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
-            <div>
-              <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
+          <form onSubmit={handleRegister} className="bg-white flex flex-col items-center justify-center h-full px-16 text-center space-y-4">
+            <Image src="/images/logo1.png" alt="logo" width={50} height={50} />
+            <div className="space-y-1">
+              <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Buat Akun</h1>
+              <p className="text-[9px] text-deep-gray font-bold uppercase tracking-[0.2em]">Mulai Perjalanan Web3 Anda</p>
             </div>
-            <h1 className="font-black text-3xl uppercase tracking-tighter text-dark-green">Buat Akun</h1>
-            <p className="text-[10px] text-deep-gray font-bold uppercase tracking-widest mb-6">Mulai Perjalanan Web3 Anda</p>
-
             <div className="w-full space-y-2">
-              <input 
-                type="text" 
-                placeholder="NAMA LENGKAP"
-                value={nama} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none"
-                onChange={(e) => setNama(e.target.value)}  
-              />
-              <input 
-                type="email" 
-                placeholder="EMAIL"
-                value={email} 
-                className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 text-[10px] font-black uppercase tracking-widest focus:ring-2 focus:ring-accent-green/20 outline-none" 
-                onChange={(e) => setEmail(e.target.value)}  
-              />
-              {/* Password Register */}
+              <input type="text" placeholder="NAMA LENGKAP" value={nama} onChange={(e) => setNama(e.target.value)} className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 text-[10px] font-black placeholder:uppercase outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
+              <input type="email" placeholder="EMAIL" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 text-[10px] font-black placeholder:uppercase outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
+
               <div className="relative w-full">
-                <input 
-                  type={showRegPass ? "text" : "password"} 
-                  placeholder="PASSWORD" 
-                  value={password}
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none"
-                  onChange={(e) => setPassword(e.target.value)}  
-                />
-                <button type="button" onClick={() => setShowRegPass(!showRegPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition">
+                <input type={showRegPass ? "text" : "password"} placeholder="PASSWORD" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 pr-12 text-[10px] font-black placeholder:uppercase tracking-widest outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
+                <button type="button" onClick={() => setShowRegPass(!showRegPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-green/20">
                   <i className={`fas ${showRegPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
               </div>
 
-              {/* Konfirmasi Password */}
               <div className="relative w-full">
-                <input 
-                  type={showRegConfirmPass ? "text" : "password"} 
-                  placeholder="KONFIRMASI PASSWORD" 
-                  className="w-full bg-milk border border-dark-green/5 rounded-xl p-3 pr-10 text-[10px] font-black uppercase tracking-widest outline-none"
-                 />
-                <button type="button" onClick={() => setShowRegConfirmPass(!showRegConfirmPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-green/30 hover:text-accent-green transition">
+                <input type={showRegConfirmPass ? "text" : "password"} placeholder="KONFIRMASI PASSWORD" className="w-full bg-milk border border-dark-green/5 rounded-2xl p-4 pr-12 text-[10px] font-black placeholder:uppercase tracking-widest outline-none focus:ring-2 focus:ring-accent-green/20 transition-all" required />
+                <button type="button" onClick={() => setShowRegConfirmPass(!showRegConfirmPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-green/20">
                   <i className={`fas ${showRegConfirmPass ? "fa-eye-slash" : "fa-eye"} text-xs`}></i>
                 </button>
               </div>
             </div>
-
-            <button type="submit" className="w-full bg-accent-green text-milk font-black py-4 px-6 rounded-2xl transition transform hover:scale-[1.02] shadow-xl active:scale-95 text-xs uppercase tracking-widest mt-2">
-              Daftar Sekarang
+            <button type="submit" disabled={loading} className="w-full bg-accent-green text-milk font-black py-5 rounded-2xl shadow-xl hover:bg-dark-green active:scale-95 text-[10px] uppercase tracking-[0.3em] transition-all disabled:opacity-50">
+              {loading ? <i className="fas fa-circle-notch animate-spin"></i> : "Daftar Sekarang"}
             </button>
           </form>
         </div>
 
-        {/* --- OVERLAY CONTAINER --- */}
+        {/* OVERLAY PANEL */}
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Sudah Punya Akun?</h1>
-              <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Masuk kembali untuk memantau dana dan mengelola profil Anda.</p>
-              <button onClick={() => setIsRightPanelActive(false)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
+              <h1 className="font-black text-4xl mb-4 uppercase tracking-tighter leading-none text-white">Sudah Punya Akun?</h1>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] leading-loose mb-8 text-milk/80">Masuk kembali untuk memantau dana dan mengelola profil Anda.</p>
+              <button onClick={() => setIsRightPanelActive(false)} className="border-2 border-milk text-milk font-black py-4 px-12 rounded-full uppercase text-[10px] tracking-[0.3em] hover:bg-milk hover:text-dark-green transition-all active:scale-95">
                 Masuk
               </button>
             </div>
-
             <div className="overlay-panel overlay-right px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Halo, Teman!</h1>
-              <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Belum punya akun? Daftar sekarang dan mulai patungan transparan di Web3.</p>
-              <button onClick={() => setIsRightPanelActive(true)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
+              <h1 className="font-black text-4xl mb-4 uppercase tracking-tighter leading-none text-white">Halo, Teman!</h1>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] leading-loose mb-8 text-milk/80">Belum punya akun? Daftar sekarang dan mulai patungan transparan di Web3.</p>
+              <button onClick={() => setIsRightPanelActive(true)} className="border-2 border-milk text-milk font-black py-4 px-12 rounded-full uppercase text-[10px] tracking-[0.3em] hover:bg-milk hover:text-dark-green transition-all active:scale-95">
                 Daftar
               </button>
             </div>

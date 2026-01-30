@@ -4,30 +4,21 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-// 1. Import komponen dari OnchainKit dan Wagmi
-import { 
-  ConnectWallet, 
-  Wallet, 
-  WalletDropdown, 
-  WalletDropdownDisconnect 
-} from "@coinbase/onchainkit/wallet";
-import {
-  Address,
-  Avatar,
-  Name,
-  Identity,
-  EthBalance,
-} from "@coinbase/onchainkit/identity";
-import { useAccount } from "wagmi";
+import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownDisconnect } from "@coinbase/onchainkit/wallet";
+import { Address, Name, Identity, EthBalance } from "@coinbase/onchainkit/identity";
+import { useAccount, useDisconnect } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { isConnected } = useAccount(); // Cek status koneksi wallet
+
+  // 1. Ambil 'address' agar teks nama/wallet muncul saat sudah connect
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
 
   const isActive = (path: string) => pathname === path;
 
   return (
-    <div className="bg-milk min-h-screen text-dark-green">
+    <div className="bg-milk min-h-screen text-dark-green font-sans">
       {/* Navbar */}
       <nav className="fixed top-0 z-50 w-full bg-milk/80 backdrop-blur-md border-b border-dark-green/5">
         <div className="px-4 py-3 lg:px-6">
@@ -38,7 +29,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
               <Link href="/" className="flex ms-2 items-center gap-2">
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+                  <Image src="/images/logo1.png" alt="logo" width={30} height={30} />
                   <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
                     Patungan<span className="text-accent-green">Yuk</span>
                   </span>
@@ -46,43 +37,58 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Link>
             </div>
 
-            {/* 2. AREA WALLET (Dinamis) */}
+            {/* 2. AREA WALLET (Dinamis & Compact) */}
             <div className="flex items-center gap-4">
-              <Wallet>
-                <ConnectWallet className="bg-dark-green text-milk hover:bg-black rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all shadow-lg">
-                  <Avatar className="h-6 w-6" />
-                  <Name className="text-milk" />
-                </ConnectWallet>
-                <WalletDropdown className="bg-white border border-dark-green/5 rounded-2xl shadow-2xl p-4">
-                  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-                    <Avatar />
-                    <Name />
-                    <Address className="text-deep-gray" />
-                    <EthBalance />
-                  </Identity>
-                  <WalletDropdownDisconnect className="hover:bg-red-50 text-red-400 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all" />
-                </WalletDropdown>
-              </Wallet>
+              {isConnected ? (
+                /* Tampilan Pill saat Connected: Tanpa Avatar & Link ke Profile */
+                <Link href="/dashboard/profile" className="h-10 min-w-[140px] bg-dark-green text-milk hover:bg-black rounded-full px-5 flex items-center gap-3 transition-all shadow-md border border-milk/10 group">
+                  <i className="fa-solid fa-user-circle text-accent-green text-sm group-hover:scale-110 transition-transform" />
+                  <Name address={address} className="text-milk text-[9px] font-black uppercase tracking-[0.15em]" />
+                </Link>
+              ) : (
+                /* Tampilan saat Disconnected: Tombol Connect Standar */
+                <Wallet>
+                  <ConnectWallet className="h-10 min-w-[140px] bg-dark-green text-milk hover:bg-black rounded-full px-6 flex items-center justify-center transition-all shadow-md border border-milk/10">
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">Connect Wallet</span>
+                  </ConnectWallet>
+                  <WalletDropdown className="bg-white border border-dark-green/5 rounded-[2rem] shadow-2xl p-4 mt-2">
+                    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                      <Name className="text-dark-green font-black" />
+                      <Address className="text-deep-gray text-xs" />
+                      <EthBalance />
+                    </Identity>
+                    <WalletDropdownDisconnect className="hover:bg-red-50 text-red-400 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all" />
+                  </WalletDropdown>
+                </Wallet>
+              )}
+              <button onClick={() => disconnect()} className="w-full py-3 bg-red-500/10 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-all">
+                Disconnect Wallet Only
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Sidebar - Bagian Buat Patungan (Hanya muncul jika sudah connect) */}
+      {/* Sidebar */}
       <aside className="fixed top-0 left-0 z-40 w-64 h-screen pt-24 bg-white border-r border-dark-green/5 transition-transform -translate-x-full sm:translate-x-0">
         <div className="h-full px-4 pb-4 overflow-y-auto flex flex-col">
           <div className="mb-8">
-            <Link 
-              href={isConnected ? "/dashboard/buat" : "#"} 
-              onClick={() => !isConnected && alert("Hubungkan wallet kamu dulu, Capt!")}
-              className={`flex items-center justify-center gap-3 w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95 ${
-                isConnected ? "bg-dark-green text-milk shadow-dark-green/10 hover:-translate-y-1" : "bg-gray-100 text-gray-400 cursor-not-allowed"
-              }`}
+            {/* Tombol Buat Patungan: Cek Koneksi */}
+            <Link
+              href={isConnected ? "/dashboard/buat" : "#"}
+              onClick={(e) => {
+                if (!isConnected) {
+                  e.preventDefault();
+                  alert("Hubungkan wallet kamu dulu, Capt!");
+                }
+              }}
+              className={`flex items-center justify-center gap-3 w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl transition-all active:scale-95 ${isConnected ? "bg-dark-green text-milk shadow-dark-green/10 hover:-translate-y-1" : "bg-gray-100 text-gray-400 cursor-not-allowed"}`}
             >
               <i className="fas fa-plus-circle"></i>
               Buat Patungan
             </Link>
           </div>
+
           <ul className="space-y-2 font-bold text-[11px] uppercase tracking-widest flex-1">
             {[
               { name: "Home Dashboard", path: "/dashboard", icon: "fa-house-chimney" },
@@ -100,6 +106,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </li>
             ))}
           </ul>
+
           <div className="pt-4 border-t border-dark-green/5">
             <Link href="/login" className="flex items-center p-3 text-red-400 hover:bg-red-50 rounded-2xl transition font-bold text-[11px] uppercase tracking-widest">
               <i className="fas fa-right-from-bracket w-5 text-center"></i>

@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/src/lib/supabase/client"; // Menggunakan client yang sudah kamu punya
 import { formatEther } from "viem"; // Jika ingin memformat angka jika disimpan dalam wei
@@ -10,11 +14,23 @@ const supabase = createClient();
 export default function DashboardHome() {
   const [patunganList, setPatunganList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchPatungan = async () => {
+    const init = async () => {
+      // Cek session dulu
+      const {
+        data: { session },
+      } = await supabaseBrowser.auth.getSession();
+
+      if (!session) {
+        router.push("/login");
+        return; // stop eksekusi kalau belum login
+      }
+
+      // Kalau session ada, ambil data
       const { data, error } = await supabase
-        .from("patungan") // Nama tabel yang sudah berhasil kamu isi
+        .from("patungan")
         .select("*")
         .order("created_at", { ascending: false });
 
@@ -23,13 +39,20 @@ export default function DashboardHome() {
       } else {
         setPatunganList(data || []);
       }
+
       setLoading(false);
     };
 
-    fetchPatungan();
+    init();
   }, []);
 
-  if (loading) return <div className="text-center p-20 font-black uppercase animate-pulse">Memuat Data Patungan...</div>;
+  if (loading) {
+    return (
+      <div className="text-center p-20 font-black uppercase animate-pulse">
+        Memuat Data Patungan...
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10">
