@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import React from "react";
-import { supabaseBrowser } from '@/src/lib/supabase/browser';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -14,18 +14,20 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabaseBrowser.auth.getSession()
+      const {
+        data: { session },
+      } = await supabaseBrowser.auth.getSession();
       if (!session) {
-        router.push('/login') // redirect kalau belum login
+        router.push("/login"); // redirect kalau belum login
       } else {
-        setLoading(false) // session ada, tampilkan dashboard
+        setLoading(false); // session ada, tampilkan dashboard
       }
-    }
+    };
 
-    checkSession()
-  }, [])
+    checkSession();
+  }, []);
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div>Loading...</div>;
 
   return (
     <>
@@ -125,9 +127,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-dark-green/5 flex items-end justify-end">
-              <Link
-                href={`/dashboard/patungan/sewa-villa-bali`}
-                className="bg-dark-green hover:bg-black text-milk px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg">
+              <Link href={`/dashboard/patungan/sewa-villa-bali`} className="bg-dark-green hover:bg-black text-milk px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg">
                 Setor Dana
               </Link>
             </div>
@@ -161,9 +161,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <Link
-              href="/dashboard/riwayat"
-              className="w-full mt-10 py-4 rounded-2xl border-2 border-dashed border-dark-green/10 text-[9px] font-black text-dark-green/40 hover:border-accent-green hover:text-accent-green transition-all uppercase tracking-[0.2em] block text-center">
+            <Link href="/dashboard/riwayat" className="w-full mt-10 py-4 rounded-2xl border-2 border-dashed border-dark-green/10 text-[9px] font-black text-dark-green/40 hover:border-accent-green hover:text-accent-green transition-all uppercase tracking-[0.2em] block text-center">
               Riwayat Transaksi
             </Link>
           </div>
