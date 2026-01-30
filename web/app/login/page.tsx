@@ -23,11 +23,6 @@ export default function LoginPage() {
   const [passwordLogin, setPasswordLogin] = useState('');
 
   // Fungsi Bypass: Langsung ke Dashboard tanpa verifikasi
-  const handleBypassLogin = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    router.push("/dashboard");
-  };
-
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -186,7 +181,7 @@ export default function LoginPage() {
       <div className={`container bg-white rounded-[2.5rem] shadow-2xl relative overflow-hidden w-full max-w-4xl min-h-[600px] border border-dark-green/5 ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
         {/* --- FORM LOGIN --- */}
         <div className="form-container sign-in-container">
-          <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
+          <form onSubmit={handleLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-4">
             <div>
               <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
             </div>
@@ -223,7 +218,7 @@ export default function LoginPage() {
 
         {/* --- FORM REGISTER (SIGN UP) --- */}
         <div className="form-container sign-up-container">
-          <form onSubmit={handleBypassLogin} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
+          <form onSubmit={handleRegister} className="bg-white flex flex-col items-center justify-center h-full px-12 text-center space-y-3">
             <div>
               <Image src="/images/logo1.png" alt="logo1" width={50} height={50} />
             </div>
