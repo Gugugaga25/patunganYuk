@@ -4,6 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { supabaseBrowser } from '@/src/lib/supabase/browser';
+import { useEffect, useRef } from 'react';
+import { useAccount } from 'wagmi';
 // 1. Import komponen dari OnchainKit dan Wagmi
 import { 
   ConnectWallet, 
@@ -18,13 +21,80 @@ import {
   Identity,
   EthBalance,
 } from "@coinbase/onchainkit/identity";
-import { useAccount } from "wagmi";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { isConnected } = useAccount(); // Cek status koneksi wallet
 
   const isActive = (path: string) => pathname === path;
+
+  const { address, chainId, isConnected } = useAccount()
+
+  const hasSaved = useRef(false)
+
+  const lastAddress = useRef<string | null>(null)
+
+  useEffect(() => {
+  if (!isConnected || !address || !chainId) return
+
+  const syncWallet = async () => {
+    const { data: { user } } = await supabaseBrowser.auth.getUser()
+    if (!user) return
+
+    const { data: existing } = await supabaseBrowser
+      .from('wallets')
+      .select('id')
+      .eq('wallet_address', address)
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('user_id', user.id)
+
+    if (existing) {
+      await supabaseBrowser
+        .from('wallets')
+        .update({ is_primary: true })
+        .eq('id', existing.id)
+    } else {
+      await supabaseBrowser.from('wallets').insert({
+        user_id: user.id,
+        wallet_address: address,
+        chain: chainId,
+        is_primary: true,
+      })
+    }
+  }
+
+  syncWallet()
+}, [isConnected, address, chainId])
+
+
+  useEffect(() => {
+  if (address) {
+    lastAddress.current = address
+  }
+}, [address])
+
+  useEffect(() => {
+  if (isConnected) return
+  if (!lastAddress.current) return
+
+  const unsetPrimary = async () => {
+    const { data: { user } } = await supabaseBrowser.auth.getUser()
+    if (!user) return
+
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('wallet_address', lastAddress.current)
+      .eq('user_id', user.id)
+  }
+
+  unsetPrimary()
+}, [isConnected])
+
 
   return (
     <div className="bg-milk min-h-screen text-dark-green">
@@ -49,7 +119,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* 2. AREA WALLET (Dinamis) */}
             <div className="flex items-center gap-4">
               <Wallet>
-                <ConnectWallet className="bg-dark-green text-milk hover:bg-black rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all shadow-lg">
+                <ConnectWallet 
+                  className="bg-dark-green text-milk hover:bg-black rounded-full px-6 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all shadow-lg">
                   <Avatar className="h-6 w-6" />
                   <Name className="text-milk" />
                 </ConnectWallet>
