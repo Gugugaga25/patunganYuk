@@ -203,7 +203,7 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
-            <button type="submit" className="w-full bg-dark-green text-milk font-black py-4 px-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-widest transition-all">
+            <button type="submit" className="w-full bg-accent-green text-milk font-black py-4 px-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 text-xs uppercase tracking-widest transition-all">
               Masuk Sekarang
             </button>
           </form>
@@ -248,7 +248,7 @@ export default function LoginPage() {
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase italic tracking-tighter leading-none">Sudah Punya Akun?</h1>
+              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Sudah Punya Akun?</h1>
               <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Masuk kembali untuk memantau dana dan mengelola profil Anda.</p>
               <button onClick={() => setIsRightPanelActive(false)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
                 Masuk
@@ -256,7 +256,7 @@ export default function LoginPage() {
             </div>
 
             <div className="overlay-panel overlay-right px-12">
-              <h1 className="font-black text-3xl mb-4 uppercase italic tracking-tighter leading-none">Halo, Teman!</h1>
+              <h1 className="font-black text-3xl mb-4 uppercase tracking-tighter leading-none">Halo, Teman!</h1>
               <p className="text-[11px] font-bold uppercase tracking-widest leading-loose mb-8 text-milk/80">Belum punya akun? Daftar sekarang dan mulai patungan transparan di Web3.</p>
               <button onClick={() => setIsRightPanelActive(true)} className="bg-transparent border-2 border-milk text-milk font-black py-3 px-12 rounded-full uppercase text-[10px] tracking-[0.2em] transform transition hover:bg-milk hover:text-dark-green active:scale-95">
                 Daftar

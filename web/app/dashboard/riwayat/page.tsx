@@ -89,7 +89,7 @@ export default function RiwayatTerintegrasiPage() {
           /* TAMPILAN RIWAYAT (Daftar Transaksi) */
           <div className="bg-white rounded-[2.5rem] p-2 border border-dark-green/5 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-dark-green/5 flex items-center justify-between">
-              <h3 className="text-xl font-black uppercase italic tracking-tighter leading-none">Transaksi Terakhir</h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter leading-none">Transaksi Terakhir</h3>
               <div className="flex gap-2">
                 <button className="w-9 h-9 flex items-center justify-center rounded-xl bg-milk text-dark-green/70 hover:text-dark-green transition-all border border-dark-green/15">
                   <i className="fas fa-filter text-[10px]"></i>

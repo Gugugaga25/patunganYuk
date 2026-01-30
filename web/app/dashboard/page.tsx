@@ -67,8 +67,12 @@ export default function DashboardPage() {
               </div>
               <div>
                 <p className="text-xs font-black text-accent-green uppercase tracking-widest mb-1">Validator Task</p>
-                <p className="text-xl font-black uppercase tracking-tight leading-none mb-3">1 Pencairan butuh persetujuan Anda</p>
-                <Link href="dashboard/validator" className="inline-flex items-center gap-2 bg-dark-green text-milk text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest hover:bg-black transition-all">
+                <p className="text-xl font-black uppercase tracking-tight leading-none mb-3">
+                  1 Pencairan butuh persetujuan Anda
+                </p>
+                <Link
+                  href="dashboard/validator"
+                  className="inline-flex items-center gap-2 bg-dark-green text-milk text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest hover:bg-black transition-all">
                   Periksa Sekarang <i className="fas fa-arrow-right"></i>
                 </Link>
               </div>
@@ -82,7 +86,9 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black text-dark-green uppercase tracking-tighter">Patungan Berjalan</h2>
-            <Link href="/dashboard/patungan" className="text-[12px] font-black text-accent-green uppercase tracking-[0.15em] hover:opacity-70 transition">
+            <Link
+              href="/dashboard/patungan"
+              className="text-[12px] font-black text-accent-green uppercase tracking-[0.15em] hover:opacity-70 transition">
               Lihat Semua
             </Link>
           </div>

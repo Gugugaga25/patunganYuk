@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -9,9 +10,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center">
           <div className="flex-1 flex items-center">
             <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center text-milk font-black shadow-md">P</div>
-              <span className="font-extrabold text-lg tracking-tight uppercase italic text-dark-green">
-                Patungan <span className="text-accent-green">Web3</span>
+              <div>
+                <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+              </div>
+              <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
+                Patungan<span className="text-accent-green">Yuk</span>
               </span>
             </div>
           </div>
@@ -40,48 +43,67 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-dark-green/5 border border-dark-green/10 rounded-full px-4 py-1.5 mb-8">
-              <span className="bg-accent-green text-milk text-[9px] font-black px-1.5 py-0.5 rounded-md">BARU</span>
-              <span className="text-[11px] font-bold uppercase tracking-widest text-dark-green/60">Support Base Network & IDRX Stablecoin</span>
+      <section className="relative pt-32 pb-20 lg:pt-38 lg:pb-32 overflow-hidden bg-milk">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="text-left order-2 lg:order-1">
+              <h1 className="text-5xl md:text-6xl lg:text-6xl font-black leading-[0.95] tracking-tighter text-dark-green mb-8 uppercase">
+                Patungan Tanpa <br />
+                <span className="relative inline-block">Was-Was,</span>
+                <br />
+                Dijamin <span className="text-accent-green">Anti-Tilep.</span>
+              </h1>
+
+              <p className="text-base md:text-sm text-deep-gray max-w-xl mb-8 font-medium leading-relaxed">Platform penggalangan dana grup 100% terdesentralisasi. Dana dikunci Smart Contract dan disalurkan langsung dalam bentuk IDRX ke dompet tujuan.</p>
+
+              <div className="flex flex-col sm:flex-row gap-3 mb-8">
+                <button className="px-7 py-3.5 bg-dark-green text-milk rounded-full font-black text-[10px] uppercase tracking-wider hover:scale-105 transition-all shadow-xl active:scale-95">Buat Patungan Sekarang</button>
+                <button className="px-7 py-3.5 bg-white text-dark-green border border-dark-green/10 rounded-full font-black text-[10px] uppercase tracking-wider hover:bg-gray-50 transition-all flex items-center justify-center gap-2 active:scale-95">
+                  <i className="fa-solid fa-magnifying-glass text-[9px]"></i>
+                  Cari Kegiatan
+                </button>
+              </div>
+
+              <div className="pt-7 border-t border-dark-green/5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-dark-green/30 mb-5">Integration on:</p>
+                <div className="flex flex-wrap items-center gap-7">
+                  {/* Base Network */}
+                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity cursor-pointer grayscale hover:grayscale-0">
+                    <div className="w-5 h-5 bg-blue-600 rounded-full shadow-sm"></div>
+                    <span className="font-black uppercase text-[10px] tracking-tighter text-dark-green">Base Network</span>
+                  </div>
+
+                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity cursor-pointer grayscale hover:grayscale-0">
+                    <div className="w-5 h-5 bg-accent-green rounded-full shadow-sm"></div>
+                    <span className="font-black uppercase text-[10px] tracking-tighter text-dark-green">IDRX Native</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-dark-green mb-6 uppercase italic">
-              Patungan Tanpa <span className="text-accent-green">Was-Was</span>,
-              <br />
-              Dijamin <span className="text-outline">Anti-Tilep</span>.
-            </h1>
+            <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
+              <div className="relative max-w-sm md:max-w-md lg:max-w-sm xl:max-w-md w-full">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-accent-green/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
 
-            <p className="text-base md:text-lg text-deep-gray max-w-xl mx-auto mb-10 font-medium leading-relaxed">Platform penggalangan dana terdesentralisasi. Dana dikunci Smart Contract, transparan di Blockchain, dan bebas biaya gas untuk semua peserta.</p>
+                <div className="relative grid grid-cols-12 gap-2 items-center">
+                  <div className="col-span-7">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Team collaboration" className="w-full aspect-[4/5] object-cover rounded-l-[2.5rem] rounded-r-xl shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-700" />
+                  </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-dark-green text-milk rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl">Buat Patungan Sekarang</button>
-              <button className="px-8 py-4 bg-white text-dark-green border border-dark-green/10 rounded-full font-black text-xs uppercase tracking-widest hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
-                <i className="fa-solid fa-magnifying-glass text-[10px]"></i>
-                Cari Kegiatan
-              </button>
-            </div>
-
-            <div className="mt-16 pt-8 border-dark-green/5 flex flex-row justify-center items-center gap-8">
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
-                <span className="group-hover:text-accent-green transition-colors">Base Network</span>
-              </div>
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
-                <span className="group-hover:text-accent-green transition-colors">IDRX Stable</span>
-              </div>
-              <div className="group flex items-center opacity-40 grayscale transition-all duration-500 hover:scale-105 hover:opacity-100 hover:grayscale-0 font-black uppercase italic text-sm tracking-tighter cursor-pointer">
-                <span className="group-hover:text-accent-green transition-colors">Coinbase Smart Wallet</span>
+                  <div className="col-span-5 space-y-2">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80" alt="Business meeting" className="w-full aspect-square object-cover rounded-tr-[4rem] rounded-bl-xl rounded-tl-xl rounded-br-xl shadow-lg border-2 border-white" />
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80" alt="Success project" className="w-full aspect-[4/3] object-cover rounded-xl shadow-lg border-2 border-white" />
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80" alt="Community" className="w-full aspect-square object-cover rounded-br-[4rem] rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg border-2 border-white" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-accent-green/10 rounded-full blur-3xl animate-blob"></div>
-          <div className="absolute bottom-10 right-10 w-64 h-64 bg-dark-green/5 rounded-full blur-3xl animate-blob" style={{ animationDelay: "4s" }}></div>
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-20">
+          <div className="absolute top-[-10%] left-[-5%] w-96 h-96 bg-accent-green/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-dark-green/[0.02] rounded-full blur-[100px]"></div>
         </div>
       </section>
 
@@ -89,24 +111,24 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase italic tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tighter leading-none">
                 Uang patungan sering <span className="text-red-500">dibawa lari</span> admin?
                 <br />
                 <span className="text-accent-green">Stop sekarang.</span>
               </h2>
-              <p className="text-base text-deep-gray mb-8 font-medium leading-relaxed">Masalah utama patungan konvensional adalah kepercayaan. Uang masuk ke rekening pribadi admin, dan tidak ada yang menjamin uang itu aman.</p>
+              <p className="text-base text-deep-gray mb-8 font-medium leading-relaxed">Trust issue adalah penghambat utama kolaborasi. PatunganYuk menghilangkan peran "bendahara manusia" dan menggantinya dengan kode yang tidak bisa berbohong.</p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 p-4 bg-red-50 rounded-2xl border border-red-100">
                   <i className="fa-solid fa-xmark text-red-500 mt-1"></i>
-                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Admin bisa pakai uang sesuka hati.</span>
+                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Pencairan tanpa persetujuan (Tilep) mustahil terjadi.</span>
                 </li>
                 <li className="flex items-start gap-3 p-4 bg-red-50 rounded-2xl border border-red-100">
                   <i className="fa-solid fa-xmark text-red-500 mt-1"></i>
-                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Tidak ada bukti transaksi yang transparan.</span>
+                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Aliran dana IDRX tercatat permanen di blockchain explorer.</span>
                 </li>
                 <li className="flex items-start gap-3 p-4 bg-red-50 rounded-2xl border border-red-100">
                   <i className="fa-solid fa-xmark text-red-500 mt-1"></i>
-                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Susah refund kalau acara batal.</span>
+                  <span className="text-dark-green font-bold uppercase text-[11px] tracking-wide">Dana mengendap di bank pribadi dilarang keras.</span>
                 </li>
               </ul>
             </div>
@@ -119,22 +141,22 @@ export default function Home() {
                     <i className="fa-solid fa-shield-halved"></i>
                   </div>
                   <div>
-                    <h3 className="font-black text-xl uppercase italic tracking-tight text-dark-green">Solusi Smart Contract</h3>
-                    <p className="text-[10px] font-bold text-accent-green uppercase tracking-widest">Teknologi Pengaman Dana Otomatis</p>
+                    <h3 className="font-black text-xl uppercase tracking-tight text-dark-green">On-Chain Escrow</h3>
+                    <p className="text-[10px] font-bold text-accent-green uppercase tracking-widest">Keamanan Digital Tanpa Perantara</p>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-dark-green/5 shadow-sm">
                     <i className="fa-solid fa-check text-accent-green"></i>
-                    <span className="font-bold text-dark-green text-[11px] uppercase">Dana dikunci di Escrow (Brankas Digital)</span>
+                    <span className="font-bold text-dark-green text-[11px] uppercase">Dana dikunci otomatis oleh Smart Contract</span>
                   </div>
                   <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-dark-green/5 shadow-sm">
                     <i className="fa-solid fa-check text-accent-green"></i>
-                    <span className="font-bold text-dark-green text-[11px] uppercase">Pencairan butuh persetujuan peserta</span>
+                    <span className="font-bold text-dark-green text-[11px] uppercase">Rilis dana IDRX butuh konsensus Validator</span>
                   </div>
                   <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-dark-green/5 shadow-sm">
                     <i className="fa-solid fa-check text-accent-green"></i>
-                    <span className="font-bold text-dark-green text-[11px] uppercase">Transparansi 100% di Blockchain</span>
+                    <span className="font-bold text-dark-green text-[11px] uppercase">Pencairan Instan IDRX ke dompet tujuan</span>
                   </div>
                 </div>
               </div>
@@ -146,33 +168,33 @@ export default function Home() {
       <section id="cara-kerja" className="py-24 bg-milk">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-dark-green">Cara Kerja Simple</h2>
-            <p className="text-deep-gray text-base font-medium">Tidak perlu paham teknis crypto. Kami buat semuanya semudah transfer bank biasa.</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-dark-green">Cara Kerja Simple</h2>
+            <p className="text-deep-gray text-base font-medium">Native Web3 experience dengan kenyamanan aplikasi Fintech konvensional.</p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
+          <div className="grid md:grid-cols-4 gap-8 text-dark-green">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">1</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Buat Patungan</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Isi target dana, deadline, dan rekening tujuan pencairan (Off-ramp).</p>
+              <h3 className="font-black text-base uppercase mb-3 leading-tight">Setup Dompet Tujuan</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Tentukan target dana, deadline, dan alamat wallet penerima IDRX.</p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">2</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Deposit (Gasless)</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Peserta kirim IDRX secara instan tanpa biaya gas (sponsored by Paymaster).</p>
+              <h3 className="font-black text-base uppercase mb-3 leading-tight">Setor IDRX (Gasless)</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Peserta kirim IDRX tanpa biaya gas (Sponsored). Dana aman di contract.</p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-dark-green/5 transition hover:-translate-y-2">
               <div className="w-12 h-12 bg-dark-green text-milk rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">3</div>
-              <h3 className="font-black text-base uppercase italic mb-3 text-dark-green">Validasi Acak</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Sistem memilih peserta acak (Validator) untuk menyetujui setiap pencairan.</p>
+              <h3 className="font-black text-base uppercase mb-3 leading-tight">Validasi Kolektif</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Peserta yang dipilih acak memverifikasi bukti pengeluaran on-chain.</p>
             </div>
 
-            <div className="bg-accent-green p-6 rounded-3xl shadow-xl transition hover:-translate-y-2 text-milk">
+            <div className="bg-accent-green p-8 rounded-3xl shadow-xl transition hover:-translate-y-2 text-milk">
               <div className="w-12 h-12 bg-milk text-accent-green rounded-2xl flex items-center justify-center text-xl font-black mb-6 shadow-md">4</div>
-              <h3 className="font-black text-base uppercase italic mb-3">Cair ke Rupiah</h3>
-              <p className="text-[12px] text-milk/80 font-medium leading-relaxed">Setelah disetujui, dana IDRX otomatis ditukar ke Rupiah & masuk rekening tujuan.</p>
+              <h3 className="font-black text-base uppercase mb-3 leading-tight">Instant Payout</h3>
+              <p className="text-[12px] text-milk/80 font-medium leading-relaxed">Dana IDRX otomatis terkirim ke dompet tujuan secara instan setelah disetujui.</p>
             </div>
           </div>
         </div>
@@ -181,7 +203,7 @@ export default function Home() {
       <section id="fitur" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black uppercase italic tracking-tighter text-dark-green">Kenapa Pilih Kami?</h2>
+            <h2 className="text-4xl font-black uppercase tracking-tighter text-dark-green">Kenapa Pilih Kami?</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -189,88 +211,67 @@ export default function Home() {
               <div className="w-12 h-12 bg-dark-green rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-dark-green/10">
                 <i className="fa-solid fa-gas-pump"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">100% Gasless</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Teknologi Paymaster kami menanggung biaya jaringan. Anda hanya perlu IDRX, tanpa pusing beli ETH.</p>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">Gasless Experience</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">User tidak butuh saldo ETH. Cukup IDRX, semua biaya gas ditanggung oleh Paymaster sistem kami.</p>
             </div>
 
             <div className="p-8 rounded-[2.5rem] bg-milk border border-dark-green/5 hover:shadow-xl transition">
               <div className="w-12 h-12 bg-accent-green rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-accent-green/10">
-                <i className="fa-solid fa-money-bill-wave"></i>
+                <i className="fa-solid fa-link"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">Stablecoin IDRX</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Nilai dana Anda stabil 1:1 dengan Rupiah. Tidak perlu takut harga crypto naik turun saat patungan.</p>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">End-to-End On-Chain</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Seluruh proses mulai dari penggalangan hingga pencairan terjadi on-chain. Transparansi mutlak tanpa jeda waktu bank.</p>
             </div>
 
             <div className="p-8 rounded-[2.5rem] bg-milk border border-dark-green/5 hover:shadow-xl transition">
               <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-milk text-lg mb-6 shadow-lg shadow-purple-600/10">
-                <i className="fa-solid fa-users-viewfinder"></i>
+                <i className="fa-solid fa-shield-halved"></i>
               </div>
-              <h3 className="font-black text-lg mb-3 uppercase italic text-dark-green">Validator Tiering</h3>
-              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Keamanan berlapis. Semakin banyak peserta, semakin banyak validator yang dibutuhkan untuk pencairan.</p>
+              <h3 className="font-black text-lg mb-3 uppercase text-dark-green">Validator Tiering</h3>
+              <p className="text-[12px] text-deep-gray font-medium leading-relaxed">Mekanisme verifikasi berlapis untuk mencegah kolusi admin. Keamanan disesuaikan dengan jumlah dana dan peserta.</p>
             </div>
           </div>
         </div>
       </section>
 
       <section id="faq" className="py-24 bg-milk">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-center mb-16 uppercase italic tracking-tighter text-dark-green">Pertanyaan Umum</h2>
+        <div className="max-w-3xl mx-auto px-6 text-dark-green">
+          <h2 className="text-4xl font-black text-center mb-16 uppercase tracking-tighter">Pertanyaan Umum</h2>
 
           <div className="space-y-4">
             <details className="group bg-white p-6 rounded-2xl border border-dark-green/10 cursor-pointer transition-all duration-300 hover:border-dark-green/30 hover:shadow-sm">
-              <summary className="flex justify-between items-center font-bold text-sm list-none uppercase tracking-wide text-dark-green select-none">
-                Apakah saya harus punya ETH Base?
+              <summary className="flex justify-between items-center font-bold text-sm list-none uppercase tracking-wide select-none">
+                Apakah dana dicairkan ke rekening bank?
                 <svg className="w-5 h-5 text-green-600 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
               <p className="text-sm text-deep-gray mt-4 leading-relaxed font-medium border-t border-dark-green/5 pt-4">
-                Tidak! Platform kami menggunakan fitur <strong className="text-dark-green">Paymaster</strong>. Anda hanya perlu memiliki IDRX untuk berpartisipasi. Biaya gas ditanggung oleh sistem.
+                Tidak. Kami menjaga ekosistem tetap aman di blockchain. Dana dicairkan dalam bentuk <strong className="text-dark-green">IDRX langsung ke wallet</strong> tujuan (misal: wallet vendor atau pemilik properti).
               </p>
             </details>
 
             <details className="group bg-white p-6 rounded-2xl border border-dark-green/10 cursor-pointer transition-all duration-300 hover:border-dark-green/30 hover:shadow-sm">
-              <summary className="flex justify-between items-center font-bold text-sm list-none uppercase tracking-wide text-dark-green select-none">
-                Bagaimana jika target patungan tidak tercapai?
+              <summary className="flex justify-between items-center font-bold text-sm list-none uppercase tracking-wide select-none">
+                Kenapa harus menggunakan dompet digital?
                 <svg className="w-5 h-5 text-green-600 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </summary>
-              <p className="text-sm text-deep-gray mt-4 leading-relaxed font-medium border-t border-dark-green/5 pt-4">
-                Jika sampai deadline dana belum terkumpul, fitur <strong className="text-dark-green">Batch Refund</strong> akan aktif. Anda bisa menarik kembali dana IDRX Anda 100%.
-              </p>
+              <p className="text-sm text-deep-gray mt-4 leading-relaxed font-medium border-t border-dark-green/5 pt-4">Dompet digital (Wallet) menjamin kepemilikan dana Anda. Dengan Smart Wallet dari Coinbase, Anda bahkan tidak perlu menyimpan private key rumit.</p>
             </details>
-
-            <details className="group bg-white p-6 rounded-2xl border border-dark-green/10 cursor-pointer transition-all duration-300 hover:border-dark-green/30 hover:shadow-sm">
-              <summary className="flex justify-between items-center font-bold text-sm list-none uppercase tracking-wide text-dark-green select-none">
-                Siapa yang menjadi Validator?
-                <svg className="w-5 h-5 text-green-600 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </summary>
-              <p className="text-sm text-deep-gray mt-4 leading-relaxed font-medium border-t border-dark-green/5 pt-4">
-                Validator dipilih secara acak oleh <span className="text-dark-green font-bold italic">Smart Contract</span> dari daftar peserta untuk menjamin transparansi pencairan.
-              </p>
-            </details>
-          </div>
-
-          <div className="flex items-center justify-center gap-2 mt-12 text-deep-gray hover:text-green-600 cursor-pointer group transition-all duration-300">
-            <p className="text-base font-bold uppercase tracking-tighter italic">Lihat Semua Pertanyaan</p>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="size-5 transform group-hover:translate-x-1 transition-transform duration-300">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-            </svg>
           </div>
         </div>
       </section>
 
       <section className="py-24 bg-dark-green text-milk text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <h2 className="text-4xl md:text-6xl font-black mb-8 uppercase italic tracking-tighter leading-none">
+          <h2 className="text-4xl md:text-6xl font-black mb-8 uppercase tracking-tighter leading-none">
             Mulai Patungan
             <br />
             Tanpa Rasa Curiga.
           </h2>
-          <p className="text-sm text-milk/60 font-medium mb-12 max-w-lg mx-auto leading-relaxed">Bergabunglah dengan ribuan orang yang sudah beralih ke cara patungan modern, aman, dan transparan.</p>
+          <p className="text-sm text-milk/60 font-medium mb-12 max-w-lg mx-auto leading-relaxed uppercase tracking-widest">Satukan tujuan, amankan dana. Selamat datang di masa depan kolaborasi finansial di Jaringan Base.</p>
           <button className="inline-block bg-milk text-dark-green font-black px-12 py-5 rounded-full text-[10px] uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all">Buat Akun & Mulai Sekarang</button>
         </div>
         <i className="fa-brands fa-ethereum absolute -bottom-10 -left-10 text-[15rem] opacity-5 -rotate-12 pointer-events-none"></i>
@@ -280,30 +281,32 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 text-dark-green">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-dark-green rounded-lg flex items-center justify-center font-black text-milk shadow-sm">P</div>
-              <span className="font-black text-xl tracking-tight uppercase italic">
-                Patungan <span className="text-accent-green">Web3</span>
+              <div>
+                <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
+              </div>
+              <span className="font-black text-xl tracking-tight uppercase">
+                Patungan<span className="text-accent-green">Yuk</span>
               </span>
             </div>
-            <p className="max-w-xs text-[11px] text-deep-gray font-medium leading-relaxed uppercase tracking-wider">Platform group funding terpercaya di Indonesia berbasis Base Blockchain. Aman, Transparan, Gasless.</p>
+            <p className="max-w-xs text-[11px] text-deep-gray font-medium leading-relaxed uppercase tracking-wider">Platform Native IDRX Group Funding pertama di Base Blockchain. Aman, Transparan, Gasless.</p>
           </div>
 
           <div>
-            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] mb-8 text-dark-green/50">Platform</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.3em] mb-8 text-dark-green/50">Developer</h4>
             <ul className="space-y-3 text-[10px] font-bold uppercase tracking-widest text-dark-green/80">
               <li>
                 <a href="#" className="hover:text-accent-green transition">
-                  Jelajah
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-accent-green transition">
-                  Cara Kerja
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-accent-green transition">
                   Smart Contract
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-accent-green transition">
+                  Base Explorer
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-accent-green transition">
+                  IDRX Documentation
                 </a>
               </li>
             </ul>
@@ -314,23 +317,18 @@ export default function Home() {
             <ul className="space-y-3 text-[10px] font-bold uppercase tracking-widest text-dark-green/80">
               <li>
                 <a href="#" className="hover:text-accent-green transition">
-                  Syarat & Ketentuan
+                  Term of Use
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-accent-green transition">
-                  Kebijakan Privasi
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-accent-green transition">
-                  Hubungi Kami
+                  Privacy Policy
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-dark-green/20 text-[9px] font-black text-dark-green/50 uppercase tracking-[0.5em] text-center">&copy; 2025 PatunganWeb3. Built for Base Hackathon.</div>
+        <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-dark-green/20 text-[9px] font-black text-dark-green/50 uppercase tracking-[0.5em] text-center">&copy; 2026 PatunganYuk. Built on Base for Hackathon.</div>
       </footer>
     </div>
   );

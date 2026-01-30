@@ -14,7 +14,7 @@ export default function LaporkanValidatorPage() {
 
           <div className="bg-white rounded-[2.5rem] p-10 border border-dark-green/5 shadow-sm">
             <div className="mb-8">
-              <h1 className="text-2xl font-black uppercase italic tracking-tight mb-2">
+              <h1 className="text-2xl font-black uppercase tracking-tight mb-2">
                 Tolak / Laporkan Pencairan
               </h1>
               <p className="text-sm text-dark-green/60">
@@ -28,7 +28,7 @@ export default function LaporkanValidatorPage() {
               <p className="text-xs uppercase tracking-widest font-black mb-1 mt-2">
                 Laporan untuk Patungan
               </p>
-              <p className="text-lg font-black text-accent-green uppercase italic">
+              <p className="text-lg font-black text-accent-green uppercase">
                 BELI MEJA PINGPONG
               </p>
             </div>
