@@ -1,6 +1,6 @@
 "use client";
+import { getSupabaseServer } from "@/src/lib/user-services";
 import { getSupabaseBrowser } from "@/src/lib/supabase-browser";
-
 import { useState, useEffect } from "react";
 
 interface ProfileFormProps {
@@ -98,7 +98,7 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
                 <i className="fa-brands fa-ethereum"></i>
               </div>
               <div className="flex-1">
-                <p className="text-xs font-mono font-bold opacity-80 break-all">{initialData?.wallets?.[0]?.wallet_address}</p>
+                <p className="text-xs font-mono font-bold opacity-80">{initialData?.wallet_address}</p>
                 <p className="text-[9px] font-black text-accent-green uppercase tracking-widest">Base Network</p>
               </div>
               <button className="text-milk/80 hover:text-milk transition">

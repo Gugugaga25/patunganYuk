@@ -1,17 +1,57 @@
-import CustomConnectButton from "@/src/components/CustomConnectButton";
-import React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { createClient } from "@/src/lib/supabase/client";
+
+const supabase = createClient();
 
 export default function Home() {
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  // --- LOGIKA: CEK SESSION SAAT MOUNT ---
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+    };
+
+    checkUser();
+
+    // Listener jika user login/logout di tab lain
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // --- LOGIKA: NAVIGASI CERDAS ---
+  const handleProtectedAction = () => {
+    if (user) {
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-milk selection:bg-accent-green selection:text-milk">
+      {/* 1. NAVBAR DENGAN LOGIN LOGIC */}
       <nav className="fixed w-full z-50 bg-milk/80 backdrop-blur-xl border-b border-dark-green/5 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center">
           <div className="flex-1 flex items-center">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <div>
-                <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
-              </div>
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
+              <Image src="/images/logo1.png" alt="logo1" width={30} height={30} />
               <span className="font-extrabold text-lg tracking-tight uppercase text-dark-green">
                 Patungan<span className="text-accent-green">Yuk</span>
               </span>
@@ -31,14 +71,22 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex items-center justify-end gap-4">
-            {/* <a href="/login" className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green">
-              Masuk
-            </a> */}
-            <CustomConnectButton />
+            {/* Link Masuk Berubah Jadi Dashboard Jika Sudah Login */}
+            {!loading && (
+              <Link href={user ? "/dashboard" : "/login"} className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green">
+                {user ? "Dashboard" : "Masuk"}
+              </Link>
+            )}
+
+            <button className="bg-dark-green hover:bg-black text-milk px-5 py-2 rounded-full font-black text-[10px] uppercase tracking-widest transition shadow-lg flex items-center gap-2 active:scale-95">
+              <i className="fa-solid fa-wallet"></i>
+              Connect Wallet
+            </button>
           </div>
         </div>
       </nav>
 
+      {/* 2. HERO SECTION DENGAN BUTTON LOGIC */}
       <section className="relative pt-32 pb-20 lg:pt-38 lg:pb-32 overflow-hidden bg-milk">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -53,53 +101,49 @@ export default function Home() {
               <p className="text-base md:text-sm text-deep-gray max-w-xl mb-8 font-medium leading-relaxed">Platform penggalangan dana grup 100% terdesentralisasi. Dana dikunci Smart Contract dan disalurkan langsung dalam bentuk IDRX ke dompet tujuan.</p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <button className="px-7 py-3.5 bg-dark-green text-milk rounded-full font-black text-[10px] uppercase tracking-wider hover:scale-105 transition-all shadow-xl active:scale-95">Buat Patungan Sekarang</button>
+                {/* TOMBOL UTAMA: CERDAS */}
+                <button onClick={handleProtectedAction} className="px-7 py-3.5 bg-dark-green text-milk rounded-full font-black text-[10px] uppercase tracking-wider hover:scale-105 transition-all shadow-xl active:scale-95">
+                  Buat Patungan Sekarang
+                </button>
+
                 <button className="px-7 py-3.5 bg-white text-dark-green border border-dark-green/10 rounded-full font-black text-[10px] uppercase tracking-wider hover:bg-gray-50 transition-all flex items-center justify-center gap-2 active:scale-95">
                   <i className="fa-solid fa-magnifying-glass text-[9px]"></i>
                   Cari Kegiatan
                 </button>
               </div>
 
+              {/* Integrasi Network Section (Tetap) */}
               <div className="pt-7 border-t border-dark-green/5">
                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-dark-green/30 mb-5">Integration on:</p>
                 <div className="flex flex-wrap items-center gap-7">
-                  {/* Base Network */}
-                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity cursor-pointer grayscale hover:grayscale-0">
-                    <div className="w-5 h-5 bg-blue-600 rounded-full shadow-sm"></div>
+                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <div className="w-5 h-5 bg-blue-600 rounded-full"></div>
                     <span className="font-black uppercase text-[10px] tracking-tighter text-dark-green">Base Network</span>
                   </div>
-
-                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity cursor-pointer grayscale hover:grayscale-0">
-                    <div className="w-5 h-5 bg-accent-green rounded-full shadow-sm"></div>
+                  <div className="flex items-center gap-2.5 opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                    <div className="w-5 h-5 bg-accent-green rounded-full"></div>
                     <span className="font-black uppercase text-[10px] tracking-tighter text-dark-green">IDRX Native</span>
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* Image Grid Section (Tetap) */}
             <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
-              <div className="relative max-w-sm md:max-w-md lg:max-w-sm xl:max-w-md w-full">
+              <div className="relative max-w-sm w-full">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-accent-green/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
-
                 <div className="relative grid grid-cols-12 gap-2 items-center">
                   <div className="col-span-7">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Team collaboration" className="w-full aspect-[4/5] object-cover rounded-l-[2.5rem] rounded-r-xl shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-700" />
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Team" className="w-full aspect-[4/5] object-cover rounded-l-[2.5rem] rounded-r-xl shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all" />
                   </div>
-
                   <div className="col-span-5 space-y-2">
-                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80" alt="Business meeting" className="w-full aspect-square object-cover rounded-tr-[4rem] rounded-bl-xl rounded-tl-xl rounded-br-xl shadow-lg border-2 border-white" />
-                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80" alt="Success project" className="w-full aspect-[4/3] object-cover rounded-xl shadow-lg border-2 border-white" />
-                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80" alt="Community" className="w-full aspect-square object-cover rounded-br-[4rem] rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg border-2 border-white" />
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80" alt="Meeting" className="w-full aspect-square object-cover rounded-tr-[4rem] rounded-bl-xl rounded-tl-xl rounded-br-xl shadow-lg border-2 border-white" />
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80" alt="Project" className="w-full aspect-[4/3] object-cover rounded-xl shadow-lg border-2 border-white" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-20">
-          <div className="absolute top-[-10%] left-[-5%] w-96 h-96 bg-accent-green/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-dark-green/[0.02] rounded-full blur-[100px]"></div>
         </div>
       </section>
 
@@ -260,17 +304,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 3. CTA SECTION DI BAWAH */}
       <section className="py-24 bg-dark-green text-milk text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <h2 className="text-4xl md:text-6xl font-black mb-8 uppercase tracking-tighter leading-none">
-            Mulai Patungan
-            <br />
-            Tanpa Rasa Curiga.
+            Mulai Patungan <br /> Tanpa Rasa Curiga.
           </h2>
-          <p className="text-sm text-milk/60 font-medium mb-12 max-w-lg mx-auto leading-relaxed uppercase tracking-widest">Satukan tujuan, amankan dana. Selamat datang di masa depan kolaborasi finansial di Jaringan Base.</p>
-          <button className="inline-block bg-milk text-dark-green font-black px-12 py-5 rounded-full text-[10px] uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all">Buat Akun & Mulai Sekarang</button>
+          <button onClick={handleProtectedAction} className="inline-block bg-milk text-dark-green font-black px-12 py-5 rounded-full text-[10px] uppercase tracking-[0.2em] shadow-2xl hover:scale-105 transition-all active:scale-95">
+            {user ? "Buka Dashboard Sekarang" : "Buat Akun & Mulai Sekarang"}
+          </button>
         </div>
-        <i className="fa-brands fa-ethereum absolute -bottom-10 -left-10 text-[15rem] opacity-5 -rotate-12 pointer-events-none"></i>
       </section>
 
       <footer className="bg-milk py-16 border-t border-dark-green/5">

@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi";
-import { parseUnits } from "viem";
+import { parseUnits, formatUnits } from "viem"; // Tambahkan formatUnits
 import { CONTRACTS } from "@/src/constants/contracts";
 import { createClient } from "@/src/lib/supabase/client";
 
@@ -22,46 +22,50 @@ export default function DetailPatunganPage() {
   const { data: hash, writeContract } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
-  // --- 1. FUNGSI FETCH DATA (DIPINDAH KELUAR AGAR BISA DIPANGGIL ULANG) ---
+  // --- 1. BLOCKCHAIN READ: SALDO KONTRAK (getCurrentBalance) ---
+  const { data: onChainBalance, refetch: refetchBalance } = useReadContract({
+    address: contractAddress as `0x${string}`,
+    abi: CONTRACTS.escrow.abi,
+    functionName: "getCurrentBalance", // Sesuai permintaanmu
+    query: {
+      refetchInterval: 15000, // Auto refresh tiap 15 detik agar tidak Rate Limit
+    },
+  });
+
+  // Konversi saldo dari BigInt ke angka biasa (6 desimal IDRX)
+  const formattedOnChainBalance = onChainBalance ? Number(formatUnits(onChainBalance as bigint, 6)) : 0;
+
+  // --- 2. FETCH DATA SUPABASE ---
   const fetchFullData = useCallback(async () => {
     if (!contractAddress) return;
-
     const { data: pData } = await supabase.from("patungan").select("*").eq("contract_address", contractAddress).single();
-
     if (pData) {
       setPatungan(pData);
-
       const { data: metaData } = await supabase.from("patungan").select("target_participants").eq("id", pData.id).single();
       if (metaData) setTargetCount(metaData.target_participants);
-
       const { data: partData } = await supabase.from("patungan_participants").select("*, users!inner(email)").eq("patungan_id", pData.id);
       if (partData) setParticipants(partData);
     }
     setLoading(false);
   }, [contractAddress]);
 
-  // Initial Fetch
   useEffect(() => {
     fetchFullData();
   }, [fetchFullData]);
 
-  // --- 2. LOGIKA HITUNG TAGIHAN (TETAP SAMA) ---
-  const calculateBill = () => {
+  // --- 3. LOGIKA TAGIHAN ---
+  const bill = (() => {
     if (!patungan) return { base: 0, fee: 0, total: 0 };
     const baseAmount = patungan.target_amount / (targetCount || 1);
-    const percentageFee = baseAmount * 0.01;
-    const adminFee = Math.max(percentageFee, 2000);
-
+    const adminFee = Math.max(baseAmount * 0.01, 2000);
     return {
       base: Math.round(baseAmount),
       fee: Math.round(adminFee),
       total: Math.round(baseAmount + adminFee),
     };
-  };
+  })();
 
-  const bill = calculateBill();
-
-  // --- 3. LOGIKA BLOCKCHAIN READ (ALLOWANCE) ---
+  // --- 4. BLOCKCHAIN READ: ALLOWANCE ---
   const { data: allowance, refetch: reloadAllowance } = useReadContract({
     address: CONTRACTS.idrx.address as `0x${string}`,
     abi: CONTRACTS.idrx.abi,
@@ -69,18 +73,17 @@ export default function DetailPatunganPage() {
     args: [userAddress, contractAddress],
   });
 
-  const totalRequired = parseUnits((bill.base + bill.fee).toString(), 6);
+  const totalRequired = parseUnits(bill.total.toString(), 6);
   const needsApprove = !allowance || (allowance as bigint) < totalRequired;
 
-  // --- 4. HANDLERS ---
+  // --- 5. HANDLERS ---
   const handleApprove = () => {
     setCurrentAction("approving");
-    const totalAmount = bill.base + bill.fee;
     writeContract({
       address: CONTRACTS.idrx.address as `0x${string}`,
       abi: CONTRACTS.idrx.abi,
       functionName: "approve",
-      args: [contractAddress as `0x${string}`, parseUnits(totalAmount.toString(), 6)],
+      args: [contractAddress as `0x${string}`, totalRequired],
     });
   };
 
@@ -94,28 +97,22 @@ export default function DetailPatunganPage() {
     });
   };
 
-  // --- 5. SINGLE SYNC LOGIC (ANTI TUMPANG TINDIH) ---
+  // --- 6. SYNC LOGIC ---
   useEffect(() => {
     const syncData = async () => {
       if (!isSuccess || !userAddress || !patungan) return;
 
-      // KASUS 1: Sukses Approve
       if (currentAction === "approving") {
         await reloadAllowance();
         setCurrentAction("none");
-        return;
       }
 
-      // KASUS 2: Sukses Deposit
       if (currentAction === "depositing") {
         try {
           const { data: userData } = await supabase.from("wallets").select("user_id").eq("wallet_address", userAddress.toLowerCase()).single();
-
           if (userData) {
-            // Update Status Peserta
-            await supabase.from("patungan_participant").update({ status: "Paid", amount_paid: bill.base }).match({ patungan_id: patungan.id, user_id: userData.user_id });
-
-            // Update Progres Total
+            // Update DB
+            await supabase.from("patungan_participants").update({ status: "Paid", amount_paid: bill.base }).match({ patungan_id: patungan.id, user_id: userData.user_id });
             await supabase
               .from("patungan")
               .update({ current_amount: patungan.current_amount + bill.base })
@@ -123,31 +120,47 @@ export default function DetailPatunganPage() {
 
             alert("Pembayaran Berhasil!");
             setCurrentAction("none");
-            fetchFullData(); // Refresh UI otomatis
+            fetchFullData();
+            refetchBalance(); // REFRESH SALDO BLOCKCHAIN SEKETIKA
           }
         } catch (err) {
           console.error("Gagal Sinkronasi:", err);
         }
       }
     };
-
     syncData();
-  }, [isSuccess, currentAction, userAddress, patungan, bill.base, fetchFullData, reloadAllowance]);
+  }, [isSuccess, currentAction, userAddress, patungan, bill.base, fetchFullData, reloadAllowance, refetchBalance]);
 
   if (loading) return <div className="p-20 text-center font-black animate-pulse">MEMBUKA BRANKAS...</div>;
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-20 text-dark-green">
-      <div className="bg-white rounded-[2.5rem] p-10 border border-dark-green/5 shadow-sm">
-        <h1 className="text-4xl font-black uppercase tracking-tighter mb-4">{patungan?.title}</h1>
-        <div className="flex justify-between items-end mb-4">
-          <p className="text-lg font-black">
-            {patungan?.current_amount.toLocaleString()} <span className="text-xs opacity-30">/ {patungan?.target_amount.toLocaleString()} IDRX</span>
-          </p>
-          <span className="text-2xl font-black text-accent-green">{Math.round((patungan?.current_amount / patungan?.target_amount) * 100)}%</span>
+      {/* Header Card dengan Saldo Blockchain */}
+      <div className="bg-white rounded-[2.5rem] p-10 border border-dark-green/5 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-8 text-right opacity-10">
+          <i className="fas fa-vault text-8xl" />
         </div>
+
+        <h1 className="text-4xl font-black uppercase tracking-tighter mb-4">{patungan?.title}</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">Target Dana</p>
+            <p className="text-2xl font-black">
+              {patungan?.target_amount.toLocaleString()} <span className="text-xs">IDRX</span>
+            </p>
+          </div>
+          <div className="md:text-right">
+            <p className="text-[10px] font-black uppercase tracking-widest text-accent-green mb-1">Saldo Riil di Smart Contract</p>
+            <p className="text-2xl font-black text-accent-green">
+              {formattedOnChainBalance.toLocaleString()} <span className="text-xs">IDRX</span>
+            </p>
+          </div>
+        </div>
+
         <div className="w-full h-4 bg-milk rounded-full overflow-hidden p-1">
-          <div className="h-full bg-accent-green rounded-full shadow-lg shadow-accent-green/20 transition-all duration-1000" style={{ width: `${(patungan?.current_amount / patungan?.target_amount) * 100}%` }}></div>
+          {/* Progress Bar berdasarkan saldo on-chain agar lebih valid */}
+          <div className="h-full bg-accent-green rounded-full shadow-lg shadow-accent-green/20 transition-all duration-1000" style={{ width: `${Math.min((formattedOnChainBalance / patungan?.target_amount) * 100, 100)}%` }}></div>
         </div>
       </div>
 

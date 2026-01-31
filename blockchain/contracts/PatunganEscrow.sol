@@ -13,20 +13,22 @@ contract PatunganEscrow is ReentrancyGuard {
         address recipient; 
         address tokenAddress; 
         uint256 targetAmount;
-        uint256 currentBalance;
+        uint256 currentBalance; 
         uint256 deadline;
         Status status;
     }
 
     RoomInfo public info;
     address public platformAdmin;
+    uint256 public totalAdminFees; 
+    
     address[] public participants;
     address[] public validators;
     mapping(address => uint256) public contributions;
     mapping(address => bool) public hasApproved;
     uint256 public approvalCount;
 
-    event Deposited(address indexed user, uint256 amount);
+    event Deposited(address indexed user, uint256 baseAmount, uint256 feeAmount);
     event ValidatorsSelected(address[] selectedValidators);
     event Disbursed(address indexed recipient, uint256 amount);
     event ETHReceived(address indexed sender, uint256 amount);
@@ -74,20 +76,22 @@ contract PatunganEscrow is ReentrancyGuard {
         emit ETHReceived(msg.sender, msg.value);
     }
 
-    function deposit(uint256 _amount) external nonReentrant {
+    function deposit(uint256 _amount, uint256 _fee) external nonReentrant {
         require(info.status == Status.Open, "Patungan ditutup");
         require(block.timestamp < info.deadline, "Melewati deadline");
 
-        IERC20(info.tokenAddress).transferFrom(msg.sender, address(this), _amount);
+        uint256 totalToTransfer = _amount + _fee;
+        IERC20(info.tokenAddress).transferFrom(msg.sender, address(this), totalToTransfer);
         
         if (contributions[msg.sender] == 0) {
             participants.push(msg.sender);
         }
         
         contributions[msg.sender] += _amount;
-        info.currentBalance += _amount;
+        info.currentBalance += _amount; 
+        totalAdminFees += _fee;        
 
-        emit Deposited(msg.sender, _amount);
+        emit Deposited(msg.sender, _amount, _fee);
 
         if (info.currentBalance >= info.targetAmount) {
             info.status = Status.Funded;
@@ -119,10 +123,6 @@ contract PatunganEscrow is ReentrancyGuard {
         emit ValidatorsSelected(validators);
     }
 
-    function getValidators() external view returns (address[] memory) {
-        return validators;
-    }
-
     function voteApproval() external onlyValidator nonReentrant {
         require(info.status == Status.Funded, "Belum Funded");
         require(!hasApproved[msg.sender], "Sudah vote");
@@ -137,41 +137,29 @@ contract PatunganEscrow is ReentrancyGuard {
 
     function _disburseFunds() internal {
         info.status = Status.Disbursed;
-        
-        uint256 fee = (info.currentBalance * 1) / 100;
-        uint256 minFee = 2000 * 10**6; 
-        if (fee < minFee) fee = minFee;
-
-        uint256 amountToRecipient = info.currentBalance - fee;
+      
+        uint256 amountToRecipient = info.currentBalance;
         IERC20(info.tokenAddress).transfer(info.recipient, amountToRecipient);
 
         emit Disbursed(info.recipient, amountToRecipient);
     }
 
     function withdrawAdminFees() external onlyAdmin nonReentrant {
-        require(info.status == Status.Disbursed, "Dana patungan harus dicairkan ke penerima dulu");
+        uint256 amountToWithdraw = totalAdminFees;
+        require(amountToWithdraw > 0, "Tidak ada fee untuk ditarik");
         
-        uint256 balance = IERC20(info.tokenAddress).balanceOf(address(this));
-        require(balance > 0, "Tidak ada fee untuk ditarik");
-        IERC20(info.tokenAddress).transfer(platformAdmin, balance);
+        totalAdminFees = 0; 
+        IERC20(info.tokenAddress).transfer(platformAdmin, amountToWithdraw);
     }
 
     function withdrawETH() external onlyAdmin {
-        require(info.status == Status.Disbursed || info.status == Status.Cancelled, "Hanya bisa tarik ETH setelah proyek selesai");
-        
         uint256 ethBalance = address(this).balance;
         require(ethBalance > 0, "Tidak ada ETH");
-
         (bool success, ) = payable(platformAdmin).call{value: ethBalance}("");
         require(success, "Gagal mengirim ETH");
     }
 
     function getCurrentBalance() external view returns (uint256) {
         return info.currentBalance;
-    }
-
-    function getRemainingAmount() external view returns (uint256) {
-        if (info.currentBalance >= info.targetAmount) return 0;
-        return info.targetAmount - info.currentBalance;
     }
 }
