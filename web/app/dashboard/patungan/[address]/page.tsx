@@ -45,7 +45,7 @@ export default function DetailPatunganPage() {
 
         // Ambil list peserta (Join dengan tabel users menggunakan kolom 'id')
         const { data: partData } = await supabase
-          .from("patungan_participant")
+          .from("patungan_participants")
           .select("*, users!inner(email)") 
           .eq("patungan_id", pData.id);
         

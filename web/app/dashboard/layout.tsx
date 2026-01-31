@@ -4,18 +4,83 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
 import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownDisconnect } from "@coinbase/onchainkit/wallet";
 import { Address, Name, Identity, EthBalance } from "@coinbase/onchainkit/identity";
 import { useAccount, useDisconnect } from "wagmi";
+import { useEffect, useRef } from "react";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  // 1. Ambil 'address' agar teks nama/wallet muncul saat sudah connect
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-
   const isActive = (path: string) => pathname === path;
+
+  const { address, chainId, isConnected } = useAccount()
+
+  const { disconnect } = useDisconnect()
+
+  const hasSaved = useRef(false)
+
+  const lastAddress = useRef<string | null>(null)
+
+  useEffect(() => {
+  if (!isConnected || !address || !chainId) return
+
+  const syncWallet = async () => {
+    const { data: { user } } = await supabaseBrowser.auth.getUser()
+    if (!user) return
+
+    const { data: existing } = await supabaseBrowser
+      .from('wallets')
+      .select('id')
+      .eq('wallet_address', address)
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('user_id', user.id)
+
+    if (existing) {
+      await supabaseBrowser
+        .from('wallets')
+        .update({ is_primary: true })
+        .eq('id', existing.id)
+    } else {
+      await supabaseBrowser.from('wallets').insert({
+        user_id: user.id,
+        wallet_address: address,
+        chain: chainId,
+        is_primary: true,
+      })
+    }
+  }
+
+  syncWallet()
+}, [isConnected, address, chainId])
+
+
+  useEffect(() => {
+  if (address) {
+    lastAddress.current = address
+  }
+}, [address])
+
+  const handleDisconnect = async () => {
+  if (!address) return disconnect()
+
+  const { data: { user } } = await supabaseBrowser.auth.getUser()
+  if (user) {
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('wallet_address', address)
+      .eq('user_id', user.id)
+  }
+
+  disconnect()
+}
 
   return (
     <div className="bg-milk min-h-screen text-dark-green font-sans">
@@ -41,10 +106,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="flex items-center gap-4">
               {isConnected ? (
                 /* Tampilan Pill saat Connected: Tanpa Avatar & Link ke Profile */
-                <Link href="/dashboard/profile" className="h-10 min-w-[140px] bg-dark-green text-milk hover:bg-black rounded-full px-5 flex items-center gap-3 transition-all shadow-md border border-milk/10 group">
-                  <i className="fa-solid fa-user-circle text-accent-green text-sm group-hover:scale-110 transition-transform" />
-                  <Name address={address} className="text-milk text-[9px] font-black uppercase tracking-[0.15em]" />
-                </Link>
+                <div className="flex items-center gap-4">
+                  <Link href="/dashboard/profile" className="h-10 min-w-[140px] bg-dark-green text-milk hover:bg-black rounded-full px-5 flex items-center gap-3 transition-all shadow-md border border-milk/10 group">
+                    <i className="fa-solid fa-user-circle text-accent-green text-sm group-hover:scale-110 transition-transform" />
+                    <Name address={address} className="text-milk text-[9px] font-black uppercase tracking-[0.15em]" />
+                  </Link>
+                  <button onClick={handleDisconnect} className="w-full py-3 bg-red-500/10 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-all">
+                    Disconnect Wallet Only
+                  </button>
+                </div>
               ) : (
                 /* Tampilan saat Disconnected: Tombol Connect Standar */
                 <Wallet>
@@ -61,9 +131,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </WalletDropdown>
                 </Wallet>
               )}
-              <button onClick={() => disconnect()} className="w-full py-3 bg-red-500/10 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-all">
-                Disconnect Wallet Only
-              </button>
             </div>
           </div>
         </div>
