@@ -20,7 +20,7 @@ export default function ProfilePage() {
               <h3 className="text-xl font-black text-dark-green mt-4 uppercase tracking-tight">Budi Santoso</h3>
               <p className="text-[9px] font-black text-accent-green bg-accent-green/10 inline-block px-3 py-1 rounded-md mt-2 uppercase tracking-[0.2em]">Verified Member</p>
             </div>
-            
+
             <div className="relative flex pt-6 mt-6 border-t border-dark-green/5 flex justify-around">
               {/* Divider */}
               <span className="absolute top-2 bottom-0 left-1/2 w-px bg-dark-green/10"></span>
@@ -28,26 +28,18 @@ export default function ProfilePage() {
               <div className="flex flex-col items-center gap-1">
                 <div className="flex items-center gap-2 text-dark-green/60">
                   <i className="fas fa-users text-xs"></i>
-                  <span className="text-[10px] font-black uppercase tracking-widest">
-                    Kontribusi
-                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Kontribusi</span>
                 </div>
-                <p className="text-base font-black text-dark-green">
-                  12 GRUP
-                </p>
+                <p className="text-base font-black text-dark-green">12 GRUP</p>
               </div>
 
               {/* Reputasi */}
               <div className="flex flex-col items-center gap-1">
                 <div className="flex items-center gap-2 text-dark-green/60">
                   <i className="fas fa-crown text-xs text-emerald-600"></i>
-                  <span className="text-[10px] font-black uppercase tracking-widest">
-                    Reputasi
-                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Reputasi</span>
                 </div>
-                <p className="text-base font-black text-emerald-600 uppercase">
-                  Top Tier
-                </p>
+                <p className="text-base font-black text-emerald-600 uppercase">Top Tier</p>
               </div>
             </div>
           </div>

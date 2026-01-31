@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from "wagmi";
 import { CONTRACTS } from "@/src/constants/contracts"; // Pastikan file constants sudah as const
 import { parseUnits, decodeEventLog } from "viem";
-import { createClient } from "@/src/lib/supabase/client"; // Menggunakan client.ts milikmu
+import { createClient } from "@/src/lib/supabase/client";
 
 const supabase = createClient();
 
