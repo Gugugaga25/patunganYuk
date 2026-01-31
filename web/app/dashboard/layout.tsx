@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react"; // Tambahkan useState & useEffect
+import { useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
 import { createClient } from "@/src/lib/supabase/client";
 import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownDisconnect } from "@coinbase/onchainkit/wallet";
 import { Address, Name, Identity, EthBalance } from "@coinbase/onchainkit/identity";
@@ -20,10 +22,74 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setMounted(true);
   }, []);
 
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-
   const isActive = (path: string) => pathname === path;
+
+  const { address, chainId, isConnected } = useAccount()
+
+  const { disconnect } = useDisconnect()
+
+  const hasSaved = useRef(false)
+
+  const lastAddress = useRef<string | null>(null)
+
+  useEffect(() => {
+  if (!isConnected || !address || !chainId) return
+
+  const syncWallet = async () => {
+    const { data: { user } } = await supabaseBrowser.auth.getUser()
+    if (!user) return
+
+    const { data: existing } = await supabaseBrowser
+      .from('wallets')
+      .select('id')
+      .eq('wallet_address', address)
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('user_id', user.id)
+
+    if (existing) {
+      await supabaseBrowser
+        .from('wallets')
+        .update({ is_primary: true })
+        .eq('id', existing.id)
+    } else {
+      await supabaseBrowser.from('wallets').insert({
+        user_id: user.id,
+        wallet_address: address,
+        chain: chainId,
+        is_primary: true,
+      })
+    }
+  }
+
+  syncWallet()
+}, [isConnected, address, chainId])
+
+
+  useEffect(() => {
+  if (address) {
+    lastAddress.current = address
+  }
+}, [address])
+
+  const handleDisconnect = async () => {
+  if (!address) return disconnect()
+
+  const { data: { user } } = await supabaseBrowser.auth.getUser()
+  if (user) {
+    await supabaseBrowser
+      .from('wallets')
+      .update({ is_primary: false })
+      .eq('wallet_address', address)
+      .eq('user_id', user.id)
+  }
+
+  disconnect()
+}
 
   // --- LOGIKA KELUAR (FORCE KILL SESSION) ---
   const handleSignOut = async () => {
@@ -119,6 +185,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               { name: "Home Dashboard", path: "/dashboard", icon: "fa-house-chimney" },
               { name: "Profile", path: "/dashboard/profile", icon: "fa-user-circle" },
               { name: "Patungan Saya", path: "/dashboard/patungan", icon: "fa-layer-group" },
+              { name: "Riwayat Patungan", path: "/dashboard/riwayat", icon: "fa-receipt" },
               { name: "Validator", path: "/dashboard/validator", icon: "fa-shield-halved", badge: "1" },
             ].map((item) => (
               <li key={item.path}>

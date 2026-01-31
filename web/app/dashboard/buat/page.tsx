@@ -5,6 +5,7 @@ import { useWriteContract, useWaitForTransactionReceipt, useAccount } from "wagm
 import { CONTRACTS } from "@/src/constants/contracts";
 import { parseUnits, decodeEventLog } from "viem";
 import { createClient } from "@/src/lib/supabase/client";
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
 
 const supabase = createClient();
 
@@ -25,12 +26,21 @@ export default function BuatPatunganPage() {
 
   const [participantInput, setParticipantInput] = useState("");
   const [invitedParticipants, setInvitedParticipants] = useState<{user_id: string, email: string}[]>([]);
+  const [emailCreator, setEmailCreator] = useState<string | null>(null);
 
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const { data: receipt, isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
+  
+
   // --- LOGIKA: CARI USER VIA EMAIL ---
   const addParticipant = async () => {
+    const {
+      data: { user },
+    } = await supabaseBrowser.auth.getUser();
+
+    if (!user) return
+
     if (!participantInput.includes("@")) {
       return alert("Masukkan format email yang valid, Capt!");
     }
@@ -51,13 +61,36 @@ export default function BuatPatunganPage() {
       return alert("Sudah ada di daftar!");
     }
 
+    if (searchEmail === user.email?.toLowerCase()) {
+      return alert("Creator ga perlu nambahin diri sendiri");
+    }
     setInvitedParticipants(prev => [...prev, { user_id: userData.id, email: userData.email }]);
     setParticipantInput("");
   };
 
   // --- LOGIKA: SINKRONISASI TUNGGAL (VERSI CLEAN SCHEMA) ---
   useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+
+      if (user?.email) {
+        setEmailCreator(user.email);
+      }
+  };
+
+  getUser();
     const syncToSupabase = async () => {
+
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+
+      if (!user) {
+        throw new Error("User belum login");
+      }
+      
       // Validasi: Berhasil, Ada Receipt, dan Belum Terkunci
       if (isSuccess && receipt && userAddress && !isSyncingRef.current) {
         isSyncingRef.current = true; 
@@ -92,7 +125,7 @@ export default function BuatPatunganPage() {
                 contract_address: roomAddress, // Ini adalah kunci utama pelacakan
                 recipient: formData.recipient,
                 creator_address: userAddress.toLowerCase(),
-                target_participants: formData.target_participants ? parseInt(formData.target_participants) : null,
+                target_participants: formData.target_participants ? (parseInt(formData.target_participants))+1 : null,
               }])
               .select().single();
 
@@ -100,15 +133,24 @@ export default function BuatPatunganPage() {
 
             // 2. Insert Massal ke Peserta (Termasuk UUID dari email)
             if (invitedParticipants.length > 0) {
-              const participantData = invitedParticipants.map(p => ({
-                patungan_id: newPatungan.id,
-                user_id: p.user_id,
-                status: "Invited",
-                amount_paid: 0
-              }));
+              const participantData = [
+                {
+                  patungan_id: newPatungan.id,
+                  user_id: user.id,
+                  status: "Creator",
+                  amount_paid: 0,
+                },
+                ...invitedParticipants.map(p => ({
+                  patungan_id: newPatungan.id,
+                  user_id: p.user_id,
+                  status: "Invited",
+                  amount_paid: 0,
+                })),
+              ];
+
 
               const { error: pError } = await supabase
-                .from("patungan_participant")
+                .from("patungan_participants")
                 .insert(participantData);
               
               if (pError) throw pError;
@@ -224,7 +266,12 @@ export default function BuatPatunganPage() {
               </label>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {invitedParticipants.length > 0 ? (
+                <div className="flex justify-between items-center p-4 bg-milk rounded-xl border border-dark-green/5">
+                  <span className="text-[10px] font-black text-dark-green/60 uppercase">
+                    {emailCreator} (Creator)
+                  </span>
+                </div>
+                {invitedParticipants.length >= 0 ? (                  
                   invitedParticipants.map((p, i) => (
                     <div key={i} className="flex justify-between items-center p-4 bg-milk rounded-xl border border-dark-green/5">
                       <span className="text-[10px] font-black text-dark-green/60 uppercase">{p.email}</span>

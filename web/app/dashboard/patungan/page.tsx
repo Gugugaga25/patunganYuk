@@ -1,12 +1,80 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState } from "react"
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { supabaseBrowser } from "@/src/lib/supabase/browser";
+import { createClient } from "@/src/lib/supabase/client"; // Menggunakan client yang sudah kamu punya
+
+const supabase = createClient();
 
 export default function PatunganSayaPage() {
   const [filter, setFilter] = useState("Aktif");
 
   const tabs = ["Aktif", "Selesai", "Batal"];
+  const [patunganList, setPatunganList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  const formatIDR = (value: number) =>
+    new Intl.NumberFormat("id-ID").format(value)
+
+  const calcProgress = (current: number, target: number) =>
+    Math.min(Math.round((current / target) * 100), 100)
+
+
+  useEffect(() => {
+    const init = async () => {
+      // Cek session dulu
+      const {
+        data: { session },
+      } = await supabaseBrowser.auth.getSession();
+
+      if (!session) {
+        router.push("/login");
+        return; // stop eksekusi kalau belum login
+      }
+
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("patungan")
+        .select(`
+          *,
+          patungan_participants!inner (
+            user_id
+          )
+        `)
+        .eq("patungan_participants.user_id", user.id)
+        .order("created_at", { ascending: false })
+
+      if (error) {
+        console.error("Gagal ambil data:", error.message);
+      } else {
+        setPatunganList(data || []);
+      }
+
+      setLoading(false);
+    };
+
+    init();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center p-20 font-black uppercase animate-pulse">
+        Memuat Data Patungan...
+      </div>
+    );
+  }
 
   return (
     <>
@@ -44,49 +112,87 @@ export default function PatunganSayaPage() {
 
       {/* Grid Card Patungan */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-dark-green">
-        {/* Card 1: Sewa Villa Bali */}
-        <div className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex gap-4">
-              <div className="w-14 h-14 bg-milk border border-dark-green/5 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-105 transition">
-                <i className="fas fa-umbrella-beach"></i>
-              </div>
-              <div>
-                <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">Kategori: Liburan</span>
-                <h3 className="text-xl font-black mt-2 uppercase tracking-tight leading-none">Sewa Villa Bali 3D2N</h3>
-              </div>
-            </div>
-            <span className="text-[9px] font-black text-dark-green/60 bg-milk px-3 py-1 rounded-md uppercase tracking-widest border border-dark-green/10">Member</span>
-          </div>
+        {patunganList.map((item) => {
+    const progress = calcProgress(
+      item.current_amount,
+      item.target_amount
+    )
 
-          <div className="space-y-4 mb-8">
-            <div className="flex justify-between items-end">
-              <div>
-                <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">Progres Dana</p>
-                <p className="text-lg font-black">
-                  4.040.000 IDRX <span className="text-sm font-bold text-dark-green/60">/ 6.060.000 IDRX</span>
-                </p>
-              </div>
-              <span className="text-2xl font-black text-accent-green">67%</span>
+    return (
+      <div
+        key={item.id}
+        className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group"
+      >
+        {/* Header */}
+        <div className="flex justify-between items-start mb-8">
+          <div className="flex gap-4">
+            <div className="w-14 h-14 bg-milk border border-dark-green/5 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-105 transition">
+              <i className="fas fa-umbrella-beach"></i>
             </div>
-            <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
-              <div className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]" style={{ width: "67%" }}></div>
+            <div>
+              <span className="text-[9px] font-black text-accent-green bg-accent-green/10 px-3 py-1 rounded-md uppercase tracking-widest">
+                Kategori: {item.category || "Umum"}
+              </span>
+              <h3 className="text-xl font-black mt-2 uppercase tracking-tight leading-none">
+                {item.title}
+              </h3>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-6 border-t border-dark-green/5">
-            <div className="flex items-center gap-2 text-red-500">
-              <i className="far fa-clock text-xs"></i>
-              <span className="text-[10px] font-black uppercase tracking-widest">5 Hari Lagi</span>
+          <span className="text-[9px] font-black text-dark-green/60 bg-milk px-3 py-1 rounded-md uppercase tracking-widest border border-dark-green/10">
+            Member
+          </span>
+        </div>
+
+        {/* Progress */}
+        <div className="space-y-4 mb-8">
+          <div className="flex justify-between items-end">
+            <div>
+              <p className="text-[10px] font-black text-deep-gray uppercase tracking-widest">
+                Progres Dana
+              </p>
+              <p className="text-lg font-black">
+                {formatIDR(item.current_amount)} IDRX{" "}
+                <span className="text-sm font-bold text-dark-green/60">
+                  / {formatIDR(item.target_amount)} IDRX
+                </span>
+              </p>
             </div>
-            <Link href={`/dashboard/patungan/sewa-villa-bali`} className="bg-dark-green text-milk px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 shadow-lg text-center">
-              Detail
-            </Link>
+            <span className="text-2xl font-black text-accent-green">
+              {progress}%
+            </span>
+          </div>
+
+          <div className="w-full bg-milk h-4 rounded-full border border-dark-green/5 overflow-hidden p-1">
+            <div
+              className="bg-accent-green h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(18,183,106,0.2)]"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-6 border-t border-dark-green/5">
+          <div className="flex items-center gap-2 text-red-500">
+            <i className="far fa-clock text-xs"></i>
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              {item.deadline}
+            </span>
+          </div>
+
+          <Link
+            href={`/dashboard/patungan/${item.contract_address}`}
+            className="bg-dark-green text-milk px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 shadow-lg text-center"
+          >
+            Detail
+          </Link>
+        </div>
+      </div>
+    )
+  })}
+
         {/* Card 2: Futsal Mingguan */}
-        <div className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
+        {/* <div className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex justify-between items-start mb-8">
             <div className="flex gap-4">
               <div className="w-14 h-14 bg-milk border border-dark-green/5 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-105 transition">
@@ -124,10 +230,10 @@ export default function PatunganSayaPage() {
               Detail
             </Link>
           </div>
-        </div>
+        </div> */}
 
         {/* Card 3: Meja Pingpong */}
-        <div className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
+        {/* <div className="bg-white rounded-[2.5rem] p-8 border border-dark-green/5 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="flex justify-between items-start mb-8">
             <div className="flex gap-4">
               <div className="w-14 h-14 bg-milk border border-dark-green/5 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:scale-105 transition">
@@ -165,7 +271,7 @@ export default function PatunganSayaPage() {
               Pantau Dana
             </Link>
           </div>
-        </div>
+        </div> */}
 
         {/* Tombol Buat Patungan Baru */}
         <Link href="/dashboard/buat" className="border-4 border-dashed border-dark-green/5 rounded-[2.5rem] p-8 flex flex-col items-center justify-center text-center group hover:border-accent-green hover:bg-accent-green/5 transition-all cursor-pointer">
