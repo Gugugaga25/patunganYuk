@@ -1,4 +1,6 @@
-import "./globals.css";
+"use client";
+
+import "../globals.css";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import RootProvider from "../rootProvider";
@@ -27,72 +29,60 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const isActive = (path: string) => pathname === path;
 
-  const { address, chainId, isConnected } = useAccount()
+  const { address, chainId, isConnected } = useAccount();
 
-  const { disconnect } = useDisconnect()
+  const { disconnect } = useDisconnect();
 
-  const hasSaved = useRef(false)
+  const hasSaved = useRef(false);
 
-  const lastAddress = useRef<string | null>(null)
+  const lastAddress = useRef<string | null>(null);
 
   useEffect(() => {
-  if (!isConnected || !address || !chainId) return
+    if (!isConnected || !address || !chainId) return;
 
-  const syncWallet = async () => {
-    const { data: { user } } = await supabaseBrowser.auth.getUser()
-    if (!user) return
+    const syncWallet = async () => {
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+      if (!user) return;
 
-    const { data: existing } = await supabaseBrowser
-      .from('wallets')
-      .select('id')
-      .eq('wallet_address', address)
-      .eq('user_id', user.id)
-      .maybeSingle()
+      const { data: existing } = await supabaseBrowser.from("wallets").select("id").eq("wallet_address", address).eq("user_id", user.id).maybeSingle();
 
-    await supabaseBrowser
-      .from('wallets')
-      .update({ is_primary: false })
-      .eq('user_id', user.id)
+      await supabaseBrowser.from("wallets").update({ is_primary: false }).eq("user_id", user.id);
 
-    if (existing) {
-      await supabaseBrowser
-        .from('wallets')
-        .update({ is_primary: true })
-        .eq('id', existing.id)
-    } else {
-      await supabaseBrowser.from('wallets').insert({
-        user_id: user.id,
-        wallet_address: address,
-        chain: chainId,
-        is_primary: true,
-      })
+      if (existing) {
+        await supabaseBrowser.from("wallets").update({ is_primary: true }).eq("id", existing.id);
+      } else {
+        await supabaseBrowser.from("wallets").insert({
+          user_id: user.id,
+          wallet_address: address,
+          chain: chainId,
+          is_primary: true,
+        });
+      }
+    };
+
+    syncWallet();
+  }, [isConnected, address, chainId]);
+
+  useEffect(() => {
+    if (address) {
+      lastAddress.current = address;
     }
-  }
-
-  syncWallet()
-}, [isConnected, address, chainId])
-
-
-  useEffect(() => {
-  if (address) {
-    lastAddress.current = address
-  }
-}, [address])
+  }, [address]);
 
   const handleDisconnect = async () => {
-  if (!address) return disconnect()
+    if (!address) return disconnect();
 
-  const { data: { user } } = await supabaseBrowser.auth.getUser()
-  if (user) {
-    await supabaseBrowser
-      .from('wallets')
-      .update({ is_primary: false })
-      .eq('wallet_address', address)
-      .eq('user_id', user.id)
-  }
+    const {
+      data: { user },
+    } = await supabaseBrowser.auth.getUser();
+    if (user) {
+      await supabaseBrowser.from("wallets").update({ is_primary: false }).eq("wallet_address", address).eq("user_id", user.id);
+    }
 
-  disconnect()
-}
+    disconnect();
+  };
 
   // --- LOGIKA KELUAR (FORCE KILL SESSION) ---
   const handleSignOut = async () => {
