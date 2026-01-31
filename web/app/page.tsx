@@ -54,10 +54,6 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <button className="px-7 py-3.5 bg-dark-green text-milk rounded-full font-black text-[10px] uppercase tracking-wider hover:scale-105 transition-all shadow-xl active:scale-95">Buat Patungan Sekarang</button>
-                <button className="px-7 py-3.5 bg-white text-dark-green border border-dark-green/10 rounded-full font-black text-[10px] uppercase tracking-wider hover:bg-gray-50 transition-all flex items-center justify-center gap-2 active:scale-95">
-                  <i className="fa-solid fa-magnifying-glass text-[9px]"></i>
-                  Cari Kegiatan
-                </button>
               </div>
 
               <div className="pt-7 border-t border-dark-green/5">
