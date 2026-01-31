@@ -7,7 +7,6 @@ contract PatunganFactory {
     address public platformAdmin;
     address[] public allRooms;
 
-    // Menambahkan recipient ke event agar mudah dilacak oleh Supabase Indexer
     event RoomCreated( 
         address indexed roomAddress, 
         address indexed organizer, 
@@ -28,11 +27,11 @@ contract PatunganFactory {
     ) external returns (address) {
         PatunganEscrow newRoom = new PatunganEscrow(
             _title,
-            msg.sender,    
+            msg.sender,     
             _recipient,     
-            _tokenAddress,
-            _targetAmount,
-            _duration,
+            _tokenAddress,  
+            _targetAmount,  
+            _duration,      
             platformAdmin   
         );
 
