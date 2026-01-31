@@ -78,14 +78,22 @@ export default function Home() {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-accent-green/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
 
                 <div className="relative grid grid-cols-12 gap-2 items-center">
-                  <div className="col-span-7">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Team collaboration" className="w-full aspect-[4/5] object-cover rounded-l-[2.5rem] rounded-r-xl shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-700" />
+                  <div className="col-span-7 relative w-full aspect-[4/5]">
+                    <Image src="/images/landing/hero (1).jpeg" alt="Team collaboration" fill sizes="(max-width: 768px) 100vw, 60vw" className="object-cover rounded-l-[2.5rem] rounded-r-xl shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-700" />
                   </div>
 
                   <div className="col-span-5 space-y-2">
-                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&q=80" alt="Business meeting" className="w-full aspect-square object-cover rounded-tr-[4rem] rounded-bl-xl rounded-tl-xl rounded-br-xl shadow-lg border-2 border-white" />
-                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80" alt="Success project" className="w-full aspect-[4/3] object-cover rounded-xl shadow-lg border-2 border-white" />
-                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80" alt="Community" className="w-full aspect-square object-cover rounded-br-[4rem] rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg border-2 border-white" />
+                    <div className="relative w-full aspect-square">
+                      <Image src="/images/landing/hero (2).jpeg" alt="Business meeting" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover rounded-tr-[4rem] rounded-bl-xl rounded-tl-xl rounded-br-xl shadow-lg border-2 border-white" />
+                    </div>
+
+                    <div className="relative w-full aspect-[4/3]">
+                      <Image src="/images/landing/hero (5).jpeg" alt="Success project" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover rounded-xl shadow-lg border-2 border-white" />
+                    </div>
+
+                    <div className="relative w-full aspect-square">
+                      <Image src="/images/landing/hero (4).jpeg" alt="Community" fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover rounded-br-[4rem] rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg border-2 border-white" />
+                    </div>
                   </div>
                 </div>
               </div>
