@@ -28,8 +28,27 @@ export default function DashboardHome() {
         return; // stop eksekusi kalau belum login
       }
 
-      // Kalau session ada, ambil data
-      const { data, error } = await supabase.from("patungan").select("*").order("created_at", { ascending: false });
+      const {
+        data: { user },
+      } = await supabaseBrowser.auth.getUser();
+
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("patungan")
+        .select(
+          `
+          *,
+          patungan_participants!inner (
+            user_id
+          )
+        `,
+        )
+        .eq("patungan_participants.user_id", user.id)
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Gagal ambil data:", error.message);
