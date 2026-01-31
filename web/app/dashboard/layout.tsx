@@ -33,11 +33,41 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Link>
             </div>
             <div className="flex items-center gap-4">
+<<<<<<< HEAD
               <div className="hidden md:flex items-center bg-white border border-dark-green/10 px-4 py-2 rounded-full shadow-sm">
                 <div className="w-2 h-2 bg-accent-green rounded-full mr-3 animate-pulse"></div>
                 <span className="text-[10px] font-black font-mono text-dark-green/60">0x71C...3E4F</span>
               </div>
               <img className="w-10 h-10 rounded-2xl border-2 border-white shadow-md" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="user" />
+=======
+              {isConnected ? (
+                /* Tampilan Pill saat Connected: Tanpa Avatar & Link ke Profile */
+                <Link href="/dashboard/profile" className="h-10 min-w-[140px] bg-dark-green text-milk hover:bg-black rounded-full px-5 flex items-center gap-3 transition-all shadow-md border border-milk/10 group">
+                  <i className="fa-solid fa-user-circle text-accent-green text-sm group-hover:scale-110 transition-transform" />
+                  <Name address={address} className="text-milk text-[9px] font-black uppercase tracking-[0.15em]" />
+                </Link>
+              ) : (
+                /* Tampilan saat Disconnected: Tombol Connect Standar */
+                <Wallet>
+                  <ConnectWallet
+                    className="bg-dark-green hover:bg-black text-milk px-6 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition shadow-lg inline-flex items-center gap-2 active:scale-95 whitespace-nowrap w-auto">
+                    <i className="fa-solid fa-wallet"></i>
+                    Connect Wallet
+                  </ConnectWallet>
+                  <WalletDropdown className="bg-white border border-dark-green/5 rounded-[2rem] shadow-2xl p-4 mt-2">
+                    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                      <Name className="text-dark-green font-black" />
+                      <Address className="text-deep-gray text-xs" />
+                      <EthBalance />
+                    </Identity>
+                    <WalletDropdownDisconnect className="hover:bg-red-50 text-red-400 font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all" />
+                  </WalletDropdown>
+                </Wallet>
+              )}
+              <button onClick={() => disconnect()} className="w-full px-6 py-3 bg-red-500/10 text-red-600 rounded-full text-[10px] font-black uppercase tracking-widest items-center gap-2 hover:bg-red-500 hover:text-white transition-all">
+                Disconnect Wallet Only
+              </button>
+>>>>>>> fd7d486 (dashboard & detail patungan)
             </div>
           </div>
         </div>
