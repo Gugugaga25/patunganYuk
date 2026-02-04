@@ -38,19 +38,19 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Menggunakan getUser() lebih aman daripada getSession() untuk middleware
+  // Gunakan getUser() (lebih aman untuk middleware SSR)
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
   const url = request.nextUrl.clone()
 
-  // 1. PROTEKSI DASHBOARD: Belum login -> Tendang ke /login
+  // 1️⃣ Proteksi dashboard → kalau belum login, redirect ke login
   if (!user && url.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // 2. AUTO-REDIRECT LOGIN: Sudah login tapi akses /login -> Lempar ke /dashboard
+  // 2️⃣ Kalau sudah login tapi buka /login → redirect ke dashboard
   if (user && url.pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
@@ -59,7 +59,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Matcher diperluas agar menyentuh Landing Page (/) dan Login (/login)
   matcher: [
     '/',
     '/login',

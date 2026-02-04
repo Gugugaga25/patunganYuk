@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract PatunganEscrow is ReentrancyGuard {
     enum Status { Open, Funded, Disbursed, Cancelled }
@@ -56,8 +55,7 @@ contract PatunganEscrow is ReentrancyGuard {
         address _recipient,
         address _tokenAddress,
         uint256 _targetAmount,
-        uint256 _duration,
-        address _platformAdmin
+        uint256 _deadline
     ) {
         info = RoomInfo({
             title: _title,
@@ -99,28 +97,14 @@ contract PatunganEscrow is ReentrancyGuard {
         }
     }
 
-    function _selectValidators() internal {
-        uint256 total = participants.length;
-        uint256 count;
+    // Fungsi withdraw untuk Penerima (Hanya dana pokok)
+    function withdraw() external {
+        require(msg.sender == recipient, "Bukan penerima");
+        require(currentBalance >= targetAmount, "Target belum tercapai");
+        require(!isWithdrawn, "Dana sudah ditarik");
 
-        if (total < 10) {
-            count = total / 2;
-            if (count < 2) count = 2;
-            if (count > 3) count = 3;
-            if (count > total) count = total;
-        } else if (total <= 50) {
-            count = 5;
-        } else {
-            count = 11;
-        }
-
-        address[] memory pool = participants;
-        for (uint256 i = 0; i < count; i++) {
-            uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, i, msg.sender))) % (pool.length - i);
-            validators.push(pool[rand]);
-            pool[rand] = pool[pool.length - 1 - i];
-        }
-        emit ValidatorsSelected(validators);
+        isWithdrawn = true;
+        token.transfer(recipient, currentBalance);
     }
 
     function voteApproval() external onlyValidator nonReentrant {

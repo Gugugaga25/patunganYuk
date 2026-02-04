@@ -1,4 +1,5 @@
 "use client";
+
 import { getSupabaseServer } from "@/src/lib/user-services";
 import { getSupabaseBrowser } from "@/src/lib/supabase-browser";
 import { useState, useEffect } from "react";
@@ -33,7 +34,7 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
 
     if (!profile.draftNama.trim()) return alert("Nama tidak boleh kosong!");
 
-    const { error } = await supabase.from("users").update({ nama: profile.draftNama }).eq("id", initialData?.id); // Pastikan initialData.id ada!
+    const { error } = await supabase.from("users").update({ nama: profile.draftNama }).eq("id", initialData?.id);
 
     if (error) {
       console.error("Gagal update:", error.message);
@@ -75,18 +76,15 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
             <div className="absolute top-0 left-0 w-full h-24 bg-dark-green"></div>
             <div className="relative z-10 pt-4">
               <img className="w-28 h-28 rounded-3xl border-4 border-white mx-auto shadow-xl group-hover:scale-105 transition duration-500" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="profile" />
-              <h3 className="text-xl font-black text-dark-green mt-4 uppercase italic tracking-tight">{profile.savedNama}</h3>
+              <h3 className="text-xl font-black text-dark-green mt-4 uppercase tracking-tight">{profile.savedNama}</h3>
               <p className="text-[9px] font-black text-accent-green bg-accent-green/10 inline-block px-3 py-1 rounded-md mt-2 uppercase tracking-[0.2em]">{initialData?.nama}</p>
             </div>
             <div className="pt-6 mt-6 border-t border-dark-green/5 flex justify-around">
               <div>
                 <p className="text-[9px] font-black text-dark-green/60 uppercase tracking-widest">Kontribusi</p>
+                {/* FIXED: Konsistensi gaya italic */}
                 <p className="text-sm font-black text-dark-green uppercase italic">{totalPatungan} Grup</p>
               </div>
-              {/* <div>
-                <p className="text-[9px] font-black text-dark-green/60 uppercase tracking-widest">Reputasi</p>
-                <p className="text-sm font-black text-dark-green uppercase italic">Top Tier</p>
-              </div> */}
             </div>
           </div>
 
@@ -107,7 +105,7 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
             </div>
             <div className="p-5 bg-white/5 rounded-2xl border border-white/10">
               <p className="text-[9px] opacity-40 uppercase font-black tracking-widest">Saldo Tersedia</p>
-              <p className="text-2xl font-black mt-1 italic tracking-tighter"></p>
+              <p className="text-2xl font-black mt-1 italic tracking-tighter">0.00 IDRX</p>
             </div>
             <i className="fas fa-shield-halved absolute -bottom-6 -right-4 text-7xl opacity-5"></i>
           </div>
@@ -129,19 +127,19 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
                   <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Nama Lengkap</label>
                   <input
                     type="text"
-                    value={profile.draftNama} // Gunakan draft
+                    value={profile.draftNama}
                     onChange={(e) =>
                       setProfile((prev) => ({
                         ...prev,
                         draftNama: e.target.value.toUpperCase(),
                       }))
                     }
-                    className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none"
+                    className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none"
                   />
                 </div>
                 <div className="space-y-3">
                   <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Email Notifikasi</label>
-                  <input type="email" value={initialData?.email} className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" disabled />
+                  <input type="email" value={initialData?.email} className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest outline-none" disabled />
                 </div>
               </div>
 
@@ -149,9 +147,9 @@ export default function ProfileForm({ initialData, totalPatungan }: ProfileFormP
                 <label className="text-[10px] font-black text-dark-green/70 uppercase tracking-[0.2em] ml-1">Bio Singkat</label>
                 <textarea
                   rows={3}
-                  value={profile.draftBio} // Ambil dari draft
+                  value={profile.draftBio}
                   onChange={(e) => setProfile((prev) => ({ ...prev, draftBio: e.target.value.toUpperCase() }))}
-                  className="w-full bg-milk border border-dark-green/10  rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest resize-none outline-none"
+                  className="w-full bg-milk border border-dark-green/10 rounded-2xl p-4 text-[11px] font-black text-dark-green focus:ring-2 focus:ring-accent-green/20 uppercase tracking-widest resize-none outline-none"
                 />
               </div>
 

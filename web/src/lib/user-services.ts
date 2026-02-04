@@ -44,3 +44,7 @@ export async function getProfileData() {
     ...data,
   };
 }
+
+export function getServerTime() {
+  return new Date();
+}
