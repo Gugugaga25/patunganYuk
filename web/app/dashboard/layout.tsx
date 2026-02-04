@@ -30,7 +30,10 @@ export default function DashboardLayout({
   const isActive = (path: string) => pathname === path;
 
   const { address, chainId, isConnected } = useAccount();
+
   const { disconnect } = useDisconnect();
+
+  const hasSaved = useRef(false);
 
   const lastAddress = useRef<string | null>(null);
 

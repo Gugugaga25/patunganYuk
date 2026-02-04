@@ -52,7 +52,8 @@ export default function DashboardHome() {
       // 4. Ambil data patungan yang HANYA diikuti oleh user (Inner Join)
       const { data, error } = await supabase
         .from("patungan")
-        .select(`
+        .select(
+          `
           *,
           patungan_participants!inner (
             user_id

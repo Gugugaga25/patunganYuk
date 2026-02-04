@@ -16,7 +16,9 @@ export default function Home() {
   // --- LOGIKA: CEK SESSION SAAT MOUNT ---
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUser(user);
       setLoading(false);
     };
@@ -24,7 +26,9 @@ export default function Home() {
     checkUser();
 
     // Listener jika user login/logout di tab lain
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -62,10 +66,7 @@ export default function Home() {
 
           <div className="flex-1 flex items-center justify-end gap-4">
             {!loading && (
-              <Link 
-                href={user ? "/dashboard" : "/login"} 
-                className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green"
-              >
+              <Link href={user ? "/dashboard" : "/login"} className="hidden md:block px-4 py-2 text-xs font-black uppercase tracking-widest hover:opacity-60 transition text-dark-green">
                 {user ? "Dashboard" : "Masuk"}
               </Link>
             )}
@@ -85,9 +86,7 @@ export default function Home() {
                 Dijamin <span className="text-accent-green">Anti-Tilep.</span>
               </h1>
 
-              <p className="text-base md:text-sm text-deep-gray max-w-xl mb-8 font-medium leading-relaxed">
-                Platform penggalangan dana grup 100% terdesentralisasi. Dana dikunci Smart Contract dan disalurkan langsung dalam bentuk IDRX ke dompet tujuan.
-              </p>
+              <p className="text-base md:text-sm text-deep-gray max-w-xl mb-8 font-medium leading-relaxed">Platform penggalangan dana grup 100% terdesentralisasi. Dana dikunci Smart Contract dan disalurkan langsung dalam bentuk IDRX ke dompet tujuan.</p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <button 

@@ -10,27 +10,20 @@ import { FlashProvider } from "./FlashContext";
 
 const config = createConfig({
   chains: [baseSepolia],
-  connectors: [
-    injected({ target: "metaMask" }),
-    injected(),
-  ],
+  connectors: [injected({ target: "metaMask" }), injected()],
   transports: {
     // RPC eksplisit agar lebih stabil & tidak mudah rate limit
     [baseSepolia.id]: http("https://sepolia.base.org"),
   },
 });
 
-export default function RootProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function RootProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            // Hemat RPC quota
+            // Matikan auto-refetch saat pindah jendela untuk menghemat RPC quota
             refetchOnWindowFocus: false,
             retry: 1,
           },

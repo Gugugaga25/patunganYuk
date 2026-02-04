@@ -11,13 +11,13 @@ const supabase = createClient();
 
 export default function BuatPatunganPage() {
   const { address: userAddress } = useAccount();
-  
+
   // --- LOGIKA ANTI DOUBLE CLICK (REF LOCK) ---
   const isSyncingRef = useRef(false);
 
   const [formData, setFormData] = useState({
     title: "",
-    target_participants: "", 
+    target_participants: "",
     target: "",
     deadline: "",
     recipient: "",
@@ -25,13 +25,11 @@ export default function BuatPatunganPage() {
   });
 
   const [participantInput, setParticipantInput] = useState("");
-  const [invitedParticipants, setInvitedParticipants] = useState<{user_id: string, email: string}[]>([]);
+  const [invitedParticipants, setInvitedParticipants] = useState<{ user_id: string; email: string }[]>([]);
   const [emailCreator, setEmailCreator] = useState<string | null>(null);
 
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const { data: receipt, isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
-
-  
 
   // --- LOGIKA: CARI USER VIA EMAIL ---
   const addParticipant = async () => {
@@ -39,7 +37,7 @@ export default function BuatPatunganPage() {
       data: { user },
     } = await supabaseBrowser.auth.getUser();
 
-    if (!user) return
+    if (!user) return;
 
     if (!participantInput.includes("@")) {
       return alert("Masukkan format email yang valid, Capt!");
@@ -48,7 +46,7 @@ export default function BuatPatunganPage() {
     const searchEmail = participantInput.toLowerCase().trim();
 
     const { data: userData, error: userError } = await supabase
-      .from("users") 
+      .from("users")
       .select("id, email")
       .ilike("email", searchEmail) // Case-insensitive lookup
       .single();
@@ -57,14 +55,14 @@ export default function BuatPatunganPage() {
       return alert("User tidak ditemukan di sistem!");
     }
 
-    if (invitedParticipants.some(p => p.user_id === userData.id)) {
+    if (invitedParticipants.some((p) => p.user_id === userData.id)) {
       return alert("Sudah ada di daftar!");
     }
 
     if (searchEmail === user.email?.toLowerCase()) {
       return alert("Creator ga perlu nambahin diri sendiri");
     }
-    setInvitedParticipants(prev => [...prev, { user_id: userData.id, email: userData.email }]);
+    setInvitedParticipants((prev) => [...prev, { user_id: userData.id, email: userData.email }]);
     setParticipantInput("");
   };
 
@@ -78,11 +76,10 @@ export default function BuatPatunganPage() {
       if (user?.email) {
         setEmailCreator(user.email);
       }
-  };
+    };
 
-  getUser();
+    getUser();
     const syncToSupabase = async () => {
-
       const {
         data: { user },
       } = await supabaseBrowser.auth.getUser();
@@ -90,10 +87,10 @@ export default function BuatPatunganPage() {
       if (!user) {
         throw new Error("User belum login");
       }
-      
+
       // Validasi: Berhasil, Ada Receipt, dan Belum Terkunci
       if (isSuccess && receipt && userAddress && !isSyncingRef.current) {
-        isSyncingRef.current = true; 
+        isSyncingRef.current = true;
 
         try {
           const event = receipt.logs
@@ -104,7 +101,9 @@ export default function BuatPatunganPage() {
                   data: log.data,
                   topics: log.topics,
                 });
-              } catch { return null; }
+              } catch {
+                return null;
+              }
             })
             .find((e) => e?.eventName === "RoomCreated");
 
@@ -114,20 +113,23 @@ export default function BuatPatunganPage() {
             // 1. Insert ke Tabel Patungan (Hanya kolom yang ada di tabel kamu)
             const { data: newPatungan, error: sbError } = await supabase
               .from("patungan")
-              .insert([{
-                title: formData.title,
-                description: formData.description,
-                target_amount: parseFloat(formData.target),
-                current_amount: 0,
-                currency: "IDRX",
-                status: "ACTIVE",
-                deadline: new Date(formData.deadline).toISOString(),
-                contract_address: roomAddress, // Ini adalah kunci utama pelacakan
-                recipient: formData.recipient,
-                creator_address: userAddress.toLowerCase(),
-                target_participants: formData.target_participants ? (parseInt(formData.target_participants))+1 : null,
-              }])
-              .select().single();
+              .insert([
+                {
+                  title: formData.title,
+                  description: formData.description,
+                  target_amount: parseFloat(formData.target),
+                  current_amount: 0,
+                  currency: "IDRX",
+                  status: "ACTIVE",
+                  deadline: new Date(formData.deadline).toISOString(),
+                  contract_address: roomAddress, // Ini adalah kunci utama pelacakan
+                  recipient: formData.recipient,
+                  creator_address: userAddress.toLowerCase(),
+                  target_participants: formData.target_participants ? parseInt(formData.target_participants) + 1 : null,
+                },
+              ])
+              .select()
+              .single();
 
             if (sbError) throw sbError;
 
@@ -140,7 +142,7 @@ export default function BuatPatunganPage() {
                   status: "Creator",
                   amount_paid: 0,
                 },
-                ...invitedParticipants.map(p => ({
+                ...invitedParticipants.map((p) => ({
                   patungan_id: newPatungan.id,
                   user_id: p.user_id,
                   status: "Invited",
@@ -148,11 +150,8 @@ export default function BuatPatunganPage() {
                 })),
               ];
 
+              const { error: pError } = await supabase.from("patungan_participants").insert(participantData);
 
-              const { error: pError } = await supabase
-                .from("patungan_participants")
-                .insert(participantData);
-              
               if (pError) throw pError;
             }
 
@@ -161,7 +160,7 @@ export default function BuatPatunganPage() {
         } catch (err: any) {
           // Tampilkan pesan error spesifik jika masih gagal
           console.error("Gagal sync:", err.message || err);
-          isSyncingRef.current = false; 
+          isSyncingRef.current = false;
         }
       }
     };
@@ -262,16 +261,16 @@ export default function BuatPatunganPage() {
             <div className="space-y-3 pt-2">
               <label className="text-[10px] font-black text-dark-green uppercase ml-1 flex justify-between items-center">
                 <span>Daftar Peserta Terpilih</span>
-                <span className="text-accent-green">{invitedParticipants.length} / {formData.target_participants || "∞"}</span>
+                <span className="text-accent-green">
+                  {invitedParticipants.length} / {formData.target_participants || "∞"}
+                </span>
               </label>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex justify-between items-center p-4 bg-milk rounded-xl border border-dark-green/5">
-                  <span className="text-[10px] font-black text-dark-green/60 uppercase">
-                    {emailCreator} (Creator)
-                  </span>
+                  <span className="text-[10px] font-black text-dark-green/60 uppercase">{emailCreator} (Creator)</span>
                 </div>
-                {invitedParticipants.length >= 0 ? (                  
+                {invitedParticipants.length >= 0 ? (
                   invitedParticipants.map((p, i) => (
                     <div key={i} className="flex justify-between items-center p-4 bg-milk rounded-xl border border-dark-green/5">
                       <span className="text-[10px] font-black text-dark-green/60 uppercase">{p.email}</span>
