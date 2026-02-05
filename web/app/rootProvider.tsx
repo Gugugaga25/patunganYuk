@@ -4,30 +4,40 @@ import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
-import { injected } from "wagmi/connectors"; // Cukup pakai injected
+import { injected } from "wagmi/connectors";
 import { ReactNode, useState } from "react";
 import { FlashProvider } from "./FlashContext";
 
 const config = createConfig({
   chains: [baseSepolia],
-  // Pakai injected agar otomatis mendeteksi MetaMask/Browser Wallet
-  connectors: [
-    injected({ target: "metaMask" }), // Memaksa fokus ke MetaMask jika ada
-    injected(),
-  ],
+  connectors: [injected({ target: "metaMask" }), injected()],
   transports: {
-    [baseSepolia.id]: http(),
+    // RPC eksplisit agar lebih stabil & tidak mudah rate limit
+    [baseSepolia.id]: http("https://sepolia.base.org"),
   },
 });
 
 export default function RootProvider({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // Matikan auto-refetch saat pindah jendela untuk menghemat RPC quota
+            refetchOnWindowFocus: false,
+            retry: 1,
+          },
+        },
+      })
+  );
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider chain={baseSepolia}>
-          <FlashProvider>{children}</FlashProvider>
+          <FlashProvider>
+            {children}
+          </FlashProvider>
         </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
